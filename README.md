@@ -22,7 +22,7 @@ Start server
 symfony server:start
 ```
 
-## List action features
+## list() action features
 
 Try `/customers` endpoint with GET parameters.
 

@@ -25,8 +25,6 @@ class CustomerController extends AbstractController
         SerializerInterface $serializer
     ): Response {
         $criteria = Criteria::create();
-        $criteria->setMaxResults(100);
-
         $form = $this->createForm(ListParametersType::class, $criteria, [
             'model' => Customer::class,
         ]);

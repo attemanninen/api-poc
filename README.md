@@ -5,9 +5,10 @@ Install dependencies
 composer install
 ```
 
-Create database (sqlite)
+Create database (sqlite) and update schema
 ```
 php bin/console doctrine:database:create
+php bin/console doctrine:schema:update --force
 ```
 
 Load fixtures
@@ -15,7 +16,7 @@ Load fixtures
 php bin/console doctrine:fixtures:load
 ```
 
-(Install `symfony` binary https://symfony.com/doc/current/setup/symfony_server.html#installation)
+(Install `symfony` binary for Symfony server https://symfony.com/doc/current/setup/symfony_server.html#installation)
 
 Start server
 ```

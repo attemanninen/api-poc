@@ -42,7 +42,7 @@ class CustomerController extends AbstractController
         if ($fields = $form->get('fields')->getData()) {
             $context[AbstractNormalizer::ATTRIBUTES] = $fields;
         }
-        $customers = $serializer->normalize($customers, 'json', $context);
+        $customers = $serializer->normalize($customers, null, $context);
 
         return $this->json($customers);
     }

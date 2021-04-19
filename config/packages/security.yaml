@@ -1,0 +1,26 @@
+security:
+    enable_authenticator_manager: true
+    access_decision_manager:
+        strategy: unanimous
+    providers:
+        my_entity_provider:  { entity: { class: 'App:User', property: apiKey } }
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+        main:
+            stateless: true
+            custom_authenticators:
+                - App\Security\ApiKeyAuthenticator
+
+    access_control:
+        - { path: '^/', roles: ROLE_USER }
+
+    role_hierarchy:
+        ROLE_ADMIN: ROLE_USER
+        ROLE_SUPER_ADMIN: [ROLE_ADMIN, ROLE_GROUP_ADMIN]
+        ROLE_GROUP_TASK_ADMIN:
+            - ROLE_GROUP_TASK_VIEW
+            - ROLE_GROUP_TASK_ADD
+            - ROLE_GROUP_TASK_EDIT
+            - ROLE_GROUP_TASK_DELETE

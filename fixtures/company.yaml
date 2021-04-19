@@ -1,0 +1,7 @@
+App\Entity\Company:
+    company_1:
+        __construct:
+            - 'Company 1'
+    company_2:
+        __construct:
+            - 'Company 2'

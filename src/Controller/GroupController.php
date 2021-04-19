@@ -2,10 +2,10 @@
 
 namespace App\Controller;
 
-use App\Entity\Customer;
+use App\Entity\Group;
 use App\Exception\FormValidationException;
 use App\Form\ListParametersType;
-use App\Repository\CustomerRepository;
+use App\Repository\GroupRepository;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Collections\Expr\Comparison;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -15,19 +15,19 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Symfony\Component\Serializer\SerializerInterface;
 
-class CustomerController extends AbstractController
+class GroupController extends AbstractController
 {
     /**
-     * @Route("/customers", name="app_customer_list")
+     * @Route("/groups", name="app_group_list")
      */
     public function list(
         Request $request,
-        CustomerRepository $repository,
+        GroupRepository $repository,
         SerializerInterface $serializer
     ): Response {
         $criteria = Criteria::create();
         $form = $this->createForm(ListParametersType::class, $criteria, [
-            'model' => Customer::class,
+            'model' => Group::class,
         ]);
         $form->submit($request->query->all());
 
@@ -37,14 +37,14 @@ class CustomerController extends AbstractController
 
         $company = $this->getUser()->getCompany();
         $criteria->andWhere(new Comparison('company', Comparison::EQ, $company));
-        $customers = $repository->matching($criteria);
+        $groups = $repository->matching($criteria);
 
         $context = [AbstractNormalizer::GROUPS => 'public'];
         if ($fields = $form->get('fields')->getData()) {
             $context[AbstractNormalizer::ATTRIBUTES] = $fields;
         }
-        $customers = $serializer->normalize($customers, null, $context);
+        $groups = $serializer->normalize($groups, null, $context);
 
-        return $this->json($customers);
+        return $this->json($groups);
     }
 }

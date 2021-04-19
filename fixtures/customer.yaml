@@ -1,0 +1,21 @@
+App\Entity\Customer:
+    company_1_customer_1:
+        __construct:
+            - '@company_1'
+            - 'Example Name'
+        email: 'example.name@example.com'
+    company_1_customer_2:
+        __construct:
+            - '@company_1'
+            - 'Foo Bar'
+        email: 'foo.bar@example.com'
+    company_1_customer_3:
+        __construct:
+            - '@company_1'
+            - 'Zoo Bar'
+        email: 'zoo.bar@example.com'
+    company_1_customer_4:
+        __construct:
+            - '@company_1'
+            - 'Customer without email'
+

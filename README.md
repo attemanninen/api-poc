@@ -1,5 +1,7 @@
 # API PoC
 
+Requires PHP 7.4
+
 Install dependencies
 ```
 composer install
@@ -13,7 +15,7 @@ php bin/console doctrine:schema:update --force
 
 Load fixtures
 ```
-php bin/console doctrine:fixtures:load
+php bin/console hautelook:fixtures:load
 ```
 
 (Install `symfony` binary for Symfony server https://symfony.com/doc/current/setup/symfony_server.html#installation)

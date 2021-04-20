@@ -50,6 +50,11 @@ class User implements UserInterface
     private $password;
 
     /**
+     * @var string
+     */
+    private $plainPassword;
+
+    /**
      * @ORM\Column(type="string", length=255, unique=true)
      */
     private $apiKey;
@@ -64,10 +69,14 @@ class User implements UserInterface
      */
     private $groupRoles;
 
-    public function __construct(Company $company, string $email)
-    {
+    public function __construct(
+        Company $company,
+        string $email,
+        string $plainPassword
+    ) {
         $this->setCompany($company);
         $this->setEmail($email);
+        $this->setPlainPassword($plainPassword);
         $this->groupRoles = new ArrayCollection();
         $this->roles = ['ROLE_USER'];
     }
@@ -105,6 +114,16 @@ class User implements UserInterface
     public function getPassword(): ?string
     {
         return $this->password;
+    }
+
+    public function setPlainPassword(?string $plainPassword = null): void
+    {
+        $this->plainPassword = $plainPassword;
+    }
+
+    public function getPlainPassword(): ?string
+    {
+        return $this->plainPassword;
     }
 
     public function setApiKey(string $apiKey): void

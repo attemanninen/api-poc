@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>{% block title %}Kiho{% endblock %}</title>
+        {% block stylesheets %}
+            <link href="https://fonts.googleapis.com/css?family=Nunito:300,400,700&display=swap" rel="stylesheet">
+            {# 'app' must match the first argument to addEntry() in webpack.config.js #}
+            {{ encore_entry_link_tags('app') }}
+
+            <!-- Renders a link tag (if your module requires any CSS)
+                 <link rel="stylesheet" href="/build/app.css"> -->
+        {% endblock %}
+    </head>
+    <body>
+        {% block body %}
+            {% block sidebar %}
+                {{ include('partial/_sidebar.html.twig') }}
+            {% endblock %}
+            <div class="container">
+                <div id="main" class="p-5">
+                    {{ include('partial/_flash_messages.html.twig') }}
+                    {% block main %}{% endblock %}
+                </div>
+            </div>
+        {% endblock %}
+        {% block javascripts %}
+            {{ encore_entry_script_tags('app') }}
+
+            <!-- Renders app.js & a webpack runtime.js file
+                <script src="/build/runtime.js"></script>
+                <script src="/build/app.js"></script> -->
+        {% endblock %}
+    </body>
+</html>

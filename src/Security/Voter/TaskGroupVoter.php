@@ -57,8 +57,8 @@ class TaskGroupVoter extends Voter
             return false;
         }
 
-        if ($subject instanceof Group) {
-
+        if ($subject->getCompany() === $user->getCompany()) {
+            return true;
         }
 
         foreach ($subject->getGroups() as $taskGroup) {

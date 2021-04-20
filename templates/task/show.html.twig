@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block main %}
+    <h4 class="mb-5">
+        {{ 'Task'|trans }}
+        <span class="text-muted">{{ task.id }}</span>
+    </h4>
+
+    <dl class="row">
+        <dt class="col-sm-3">Id</dt>
+        <dl class="col-sm-9">{{ task.id }}</dl>
+        <dt class="col-sm-3">{{ 'Name'|trans }}</dt>
+        <dl class="col-sm-9">{{ task.name }}</dl>
+        <dt class="col-sm-3">{{ 'Description'|trans }}</dt>
+        <dl class="col-sm-9">{{ task.description|default('-') }}</dl>
+        <dt class="col-sm-3">{{ 'Groups'|trans }}</dt>
+        <dl class="col-sm-9">
+            {% for taskGroup in task.groups %}
+                <h5>
+                    <span class="badge rounded-pill bg-light text-dark">
+                        {{ taskGroup.group.name }}
+                    </span>
+                </h5>
+            {% else %}
+                -
+            {% endfor %}
+        </dl>
+    </dl>
+
+    <a href="{{ path('app_ui_task_list') }}" class="btn btn-secondary">
+        {{ "Back to tasks"|trans }}
+    </a>
+    <a href="#" class="btn btn-primary">
+        {{ "Edit"|trans }}
+    </a>
+{% endblock %}

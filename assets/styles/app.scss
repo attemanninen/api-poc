@@ -1,0 +1,46 @@
+@import "~bootstrap/scss/bootstrap";
+
+body {
+    font-family: 'Nunito', sans-serif;
+}
+
+#sidebar-wrapper + .container {
+    margin-left: 240px;
+}
+
+#sidebar-wrapper {
+    background-color: #f8f9fa;
+    height: 100%;
+    left: 0;
+    overflow-x: hidden; /* Disable horizontal scroll */
+    position: fixed;
+    top: 0;
+    width: 240px;
+}
+
+#sidebar-nav a {
+    color: #495057;
+    display: block;
+}
+
+#sidebar-nav a.active {
+    color: #007bff;
+}
+
+.table th {
+    border: none;
+}
+
+.table th,
+.table td {
+    vertical-align: middle;
+    white-space: nowrap;
+}
+
+[data-href] {
+    cursor: pointer;
+}
+
+#login-logo {
+    width: 100px;
+}

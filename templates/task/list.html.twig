@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+
+{% block main %}
+    <div class="row mb-5">
+        <div class="col">
+            <h4 class="float-left">
+                {{ 'Tasks'|trans }}
+            </h4>
+        </div>
+    </div>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>{{ 'Id'|trans }}</th>
+                <th>{{ 'Name'|trans }}</th>
+                <th>{{ 'Description'|trans }}</th>
+                <th>{{ 'Groups'|trans }}</th>
+                <th>{{ 'Actions'|trans }}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for task in tasks %}
+                <tr data-href="{{ path('app_ui_task_show', {id: task.id }) }}">
+                    <td>{{ task.id }}</td>
+                    <td>{{ task.name }}</td>
+                    <td>{{ task.description|default('-') }}</td>
+                    <td>
+                        {% for taskGroup in task.groups %}
+                            <h5>
+                                <span class="badge rounded-pill bg-light text-dark">
+                                    {{ taskGroup.group.name }}
+                                </span>
+                            </h5>
+                        {% else %}
+                            -
+                        {% endfor %}
+                    </td>
+                    <td>
+                        <div class="dropdown">
+                            <button type="button" class="btn btn-light dropdown-toggle" id="dropdownActionsButton{{ loop.index }}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                {{ 'Actions'|trans }}
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownActionsButton{{ loop.index }}">
+                                <a href="{{ path('app_ui_task_show', {id: task.id}) }}" class="dropdown-item">
+                                    {{ 'Show task'|trans }}
+                                </a>
+                                {# <a href="{{ path('app_ui_task_edit', {id: task.id}) }}" class="dropdown-item">
+                                    {{ 'Edit task'|trans }}
+                                </a> #}
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

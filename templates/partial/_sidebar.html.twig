@@ -1,0 +1,14 @@
+<nav id="sidebar-wrapper" class="d-flex align-items-start flex-column p-5">
+    <div id="sidebar-nav" class="my-4">
+        {% set route = app.request.get('_route') %}
+        <a href="{{ path('app_ui_task_list') }}" class="{{ 'task' in route ? 'active' }} my-2">
+            {{ 'Tasks'|trans }}
+        </a>
+    </div>
+    <div class="mt-auto">
+        <p>
+            {{ app.user.username }}<br>
+            {{ app.user.company.name }}
+        </p>
+    </div>
+</nav>

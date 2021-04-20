@@ -7,3 +7,7 @@ App\Entity\Task:
         __construct:
             - '@company_1'
             - 'Task 2 name'
+    company_2_task_1:
+        __construct:
+            - '@company_2'
+            - 'Task 1 name'

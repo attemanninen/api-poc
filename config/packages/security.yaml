@@ -1,15 +1,25 @@
 security:
+    encoders:
+        App\Entity\User:
+            algorithm: auto
     enable_authenticator_manager: true
-    access_decision_manager:
-        strategy: unanimous
     providers:
-        my_entity_provider:  { entity: { class: 'App:User', property: apiKey } }
+        user_db: { entity: { class: 'App:User', property: username } }
+        api_key_db: { entity: { class: 'App:User', property: apiKey } }
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
+        ui:
+            pattern: ^/ui
+            http_basic:
+                provider: user_db
+            logout:
+                path: app_ui_logout
+
         main:
             stateless: true
+            provider: api_key_db
             custom_authenticators:
                 - App\Security\ApiKeyAuthenticator
 

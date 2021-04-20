@@ -47,8 +47,7 @@ class Task
      * @ORM\OneToMany(
      *   targetEntity=TaskGroup::class,
      *   mappedBy="task",
-     *   orphanRemoval=true,
-     *   fetch="EXTRA_LAZY"
+     *   orphanRemoval=true
      * )
      */
     private $groups;

@@ -21,7 +21,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/ui", name="app_ui_group_")
+ * @Route("/ui/groups", name="app_ui_group_")
  */
 class GroupController extends AbstractController
 {
@@ -44,7 +44,7 @@ class GroupController extends AbstractController
     }
 
     /**
-     * @Route("/groups/create", name="create")
+     * @Route("/create", name="create")
      */
     public function create(Request $request): Response
     {
@@ -84,7 +84,7 @@ class GroupController extends AbstractController
     }
 
     /**
-     * @Route("/groups", name="list")
+     * @Route("/", name="list")
      */
     public function list(Request $request): Response
     {
@@ -107,7 +107,7 @@ class GroupController extends AbstractController
     }
 
     /**
-     * @Route("/groups/{id}", name="show")
+     * @Route("/{id}", name="show")
      */
     public function show(
         Group $group,
@@ -124,7 +124,7 @@ class GroupController extends AbstractController
     }
 
     /**
-     * @Route("/groups/{id}/edit", name="edit")
+     * @Route("/{id}/edit", name="edit")
      */
     public function edit(
         Group $group,

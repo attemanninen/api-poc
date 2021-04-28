@@ -37,7 +37,7 @@ class Task
     private $name;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="text", nullable=true)
      *
      * @Groups({"public"})
      */
@@ -110,11 +110,22 @@ class Task
         return $this->groups;
     }
 
+    public function getGroup(Group $group): ?TaskGroup
+    {
+        foreach ($this->getGroups() as $taskGroup) {
+            if ($taskGroup->getGroup() === $group) {
+                return $taskGroup;
+            }
+        }
+
+        return null;
+    }
+
     public function removeGroup(TaskGroup $group): void
     {
         if ($this->groups->removeElement($group)) {
-            if ($group->getUser() === $this) {
-                $group->setUser(null);
+            if ($group->getTask() === $this) {
+                $group->setTask(null);
             }
         }
     }

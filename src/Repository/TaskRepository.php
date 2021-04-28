@@ -19,9 +19,22 @@ class TaskRepository extends ServiceEntityRepository
     {
         $qb = $this->createQueryBuilder('t')
             ->addCriteria($criteria)
-            ->innerJoin('t.groups', 'g')
-            ->andWhere('g.group = :group')
+            ->innerJoin('t.groups', 'tg')
+            ->innerJoin('tg.group', 'g')
+            ->andWhere('g.id = :group')
             ->setParameter('group', $group);
+
+        return $qb->getQuery()->execute();
+    }
+
+    public function matchingWithGroups(Criteria $criteria, iterable $groups): array
+    {
+        $qb = $this->createQueryBuilder('t')
+            ->addCriteria($criteria)
+            ->innerJoin('t.groups', 'tg')
+            ->innerJoin('tg.group', 'g')
+            ->andWhere('g.id IN (:groups)')
+            ->setParameter('groups', $groups);
 
         return $qb->getQuery()->execute();
     }

@@ -26,7 +26,7 @@ class GroupRole
      *  targetEntity=Group::class
      * )
      * @ORM\JoinColumn(
-     *  name="`group`",
+     *  name="group_id",
      *  referencedColumnName="id",
      *  nullable=false
      * )

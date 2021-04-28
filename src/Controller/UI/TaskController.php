@@ -2,61 +2,110 @@
 
 namespace App\Controller\UI;
 
-use App\Entity\Group;
 use App\Entity\Task;
+use App\Entity\TaskGroup;
 use App\Exception\FormValidationException;
+use App\Form\DataTransferObject\TaskData;
+use App\Form\TaskType;
 use App\Form\UI\TaskFilterType;
-use App\Form\ListParametersType;
 use App\Repository\TaskRepository;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Collections\Expr\Comparison;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 
 /**
- * @Route("/ui", name="app_ui_task_")
+ * @Route("/ui/tasks", name="app_ui_task_")
  */
 class TaskController extends AbstractController
 {
+    /**
+     * @var EntityManagerInterface
+     */
+    private $entityManager;
+
     /**
      * @var TaskRepository
      */
     private $repository;
 
     public function __construct(
+        EntityManagerInterface $entityManager,
         TaskRepository $repository
     ) {
+        $this->entityManager = $entityManager;
         $this->repository = $repository;
     }
 
     /**
-     * @Route("/tasks", name="list")
+     * @Route("/create", name="create")
      */
-    public function list(Request $request, Group $group = null): Response
+    public function create(Request $request): Response
+    {
+        $taskData = new TaskData();
+        $company = $this->getUser()->getCompany();
+        $form = $this->createForm(TaskType::class, $taskData, [
+            'company' => $company
+        ]);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $task = new Task($company, $taskData->name);
+            $taskData->updateTask($task);
+            foreach ($taskData->groups as $group) {
+                $taskGroup = new TaskGroup($task, $group);
+                $this->entityManager->persist($taskGroup);
+            }
+            $this->entityManager->persist($task);
+            $this->entityManager->flush();
+
+            $this->addFlash('success', 'Task created');
+
+            return $this->redirectToRoute('app_ui_task_show', [
+                'id' => $task->getId(),
+            ]);
+        }
+
+        return $this->render('task/create.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/", name="list")
+     */
+    public function list(Request $request): Response
     {
         $criteria = Criteria::create();
-        $form = $this->createForm(TaskFilterType::class, $criteria);
+        $form = $this->createForm(TaskFilterType::class, $criteria, [
+            'user' => $this->getUser()
+        ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && !$form->isValid()) {
             throw new FormValidationException($form);
         }
 
-        $company = $this->getUser()->getCompany();
-        $criteria->andWhere(new Comparison('company', Comparison::EQ, $company));
-        $tasks = $this->repository->matching($criteria);
+        $groups = $form->get('groups')->getData();
+        if ($form->get('enable_groups')->getData() && $groups) {
+            $tasks = $this->repository->matchingWithGroups($criteria, $groups);
+        } else {
+            $company = $this->getUser()->getCompany();
+            $criteria->andWhere(new Comparison('company', Comparison::EQ, $company));
+            $tasks = $this->repository->matching($criteria);
+        }
 
         return $this->render('task/list.html.twig', [
             'tasks' => $tasks,
-            'filterForm' => $form->createView()
+            'filterForm' => $form->createView(),
         ]);
     }
 
     /**
-     * @Route("/tasks/{id}", name="show")
+     * @Route("/{id}", name="show")
      */
     public function show(Task $task): Response
     {
@@ -64,6 +113,58 @@ class TaskController extends AbstractController
 
         return $this->render('task/show.html.twig', [
             'task' => $task,
+        ]);
+    }
+
+    /**
+     * @Route("/{id}/edit", name="edit")
+     */
+    public function edit(
+        Task $task,
+        Request $request
+    ): Response {
+        $this->denyAccessUnlessGranted('edit', $task);
+
+        $taskData = TaskData::fromTask($task);
+        $form = $this->createForm(TaskType::class, $taskData, [
+            'company' => $this->getUser()->getCompany()
+        ]);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $taskData->updateTask($task);
+
+            foreach ($taskData->groups as $group) {
+                if (!$task->getGroup($group)) {
+                    $taskGroup = new TaskGroup($task, $group);
+                    $this->entityManager->persist($taskGroup);
+                }
+            }
+
+            foreach ($task->getGroups() as $taskGroup) {
+                $found = false;
+                foreach ($taskData->groups as $group) {
+                    if ($taskGroup->getGroup() === $group) {
+                        $found = true;
+                    }
+                }
+                if (!$found) {
+                    $this->entityManager->remove($taskGroup);
+                }
+            }
+
+            $this->entityManager->flush();
+
+            $this->addFlash('success', 'Task updated');
+
+            return $this->redirectToRoute('app_ui_task_show', [
+                'id' => $task->getId(),
+            ]);
+        }
+
+        return $this->render('task/edit.html.twig', [
+            'task' => $task,
+            'form' => $form->createView(),
         ]);
     }
 }

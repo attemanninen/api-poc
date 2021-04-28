@@ -6,6 +6,9 @@
             <h4 class="float-left">
                 {{ 'Tasks'|trans }}
             </h4>
+            <a href="{{ path('app_ui_task_create') }}" class="btn btn-success float-right">
+                {{ 'Create task'|trans }}
+            </a>
         </div>
     </div>
     <div class="row mb-4">
@@ -30,7 +33,7 @@
                 <tr data-href="{{ path('app_ui_task_show', {id: task.id }) }}">
                     <td>{{ task.id }}</td>
                     <td>{{ task.name }}</td>
-                    <td>{{ task.description|default('-') }}</td>
+                    <td>{{ task.description|default('-')|u.truncate(50, '...') }}</td>
                     <td>
                         {% for taskGroup in task.groups %}
                             <h5>

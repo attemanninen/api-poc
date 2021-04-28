@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block main %}
+    <div class="row mb-5">
+        <div class="col">
+            <h4 class="float-left">
+                {{ 'Groups'|trans }}
+            </h4>
+            <a href="{{ path('app_ui_group_create') }}" class="btn btn-success float-right">
+                {{ 'Create group'|trans }}
+            </a>
+        </div>
+    </div>
+    <div class="row mb-4">
+        <div class="col">
+            {{ include('group/_filter.html.twig', {
+                form: filterForm
+            }, with_context = false) }}
+        </div>
+    </div>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>{{ 'Id'|trans }}</th>
+                <th>{{ 'Name'|trans }}</th>
+                <th align="right">{{ 'Actions'|trans }}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for group in groups %}
+                <tr data-href="{{ path('app_ui_group_show', {id: group.id }) }}">
+                    <td>{{ group.id }}</td>
+                    <td>{{ group.name }}</td>
+                    <td>
+                        <div class="dropdown">
+                            <button type="button" class="btn btn-light dropdown-toggle" id="dropdownActionsButton{{ loop.index }}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                {{ 'Actions'|trans }}
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownActionsButton{{ loop.index }}">
+                                <a href="{{ path('app_ui_group_show', {id: group.id}) }}" class="dropdown-item">
+                                    {{ 'Show group'|trans }}
+                                </a>
+                                <a href="{{ path('app_ui_group_edit', {id: group.id}) }}" class="dropdown-item">
+                                    {{ 'Edit group'|trans }}
+                                </a>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

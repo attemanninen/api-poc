@@ -6,6 +6,7 @@ use App\Repository\TaskGroupRepository;
 use DateTime;
 use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=TaskGroupRepository::class)
@@ -27,13 +28,20 @@ class TaskGroup
     private $task;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Group::class)
+     * @ORM\ManyToOne(
+     *   targetEntity=Group::class,
+     *   fetch="EAGER"
+     * )
      * @ORM\JoinColumn(nullable=false)
+     *
+     * @Groups({"public"})
      */
     private $group;
 
     /**
      * @ORM\Column(type="datetime")
+     *
+     * @Groups({"public"})
      */
     private $createdAt;
 

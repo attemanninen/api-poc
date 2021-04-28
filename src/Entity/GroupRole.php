@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Form\DataTransferObject\GroupRoleData;
 use App\Repository\GroupRoleRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -22,17 +23,6 @@ class GroupRole
 
     /**
      * @ORM\ManyToOne(
-     *   targetEntity=User::class,
-     *   inversedBy="groupRoles"
-     * )
-     * @ORM\JoinColumn(nullable=false)
-     *
-     * @Groups({"public"})
-     */
-    private $user;
-
-    /**
-     * @ORM\ManyToOne(
      *  targetEntity=Group::class
      * )
      * @ORM\JoinColumn(
@@ -46,32 +36,33 @@ class GroupRole
     private $group;
 
     /**
+     * @ORM\ManyToOne(
+     *   targetEntity=User::class,
+     *   inversedBy="groupRoles"
+     * )
+     * @ORM\JoinColumn(nullable=false)
+     *
+     * @Groups({"public"})
+     */
+    private $user;
+
+    /**
      * @ORM\Column(type="array")
      *
      * @Groups({"public"})
      */
     private $roles;
 
-    public function __construct(User $user, Group $group, array $roles)
+    public function __construct(Group $group, User $user, array $roles)
     {
-        $this->setUser($user);
         $this->setGroup($group);
+        $this->setUser($user);
         $this->setRoles($roles);
     }
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getUser(): User
-    {
-        return $this->user;
-    }
-
-    public function setUser(User $user): void
-    {
-        $this->user = $user;
     }
 
     public function setGroup(Group $group): void
@@ -82,6 +73,16 @@ class GroupRole
     public function getGroup(): Group
     {
         return $this->group;
+    }
+
+    public function getUser(): User
+    {
+        return $this->user;
+    }
+
+    public function setUser(User $user): void
+    {
+        $this->user = $user;
     }
 
     public function setRoles(array $roles): void
@@ -112,5 +113,11 @@ class GroupRole
         if ($key !== false) {
             unset($this->roles[$key]);
         }
+    }
+
+    public function updateFromDataTransferObject(GroupRoleData $data): void
+    {
+        $this->setUser($data->user);
+        $this->setRoles($data->roles);
     }
 }

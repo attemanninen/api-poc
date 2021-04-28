@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block main %}
+    <h4 class="mb-5">
+        {{ 'Group'|trans }}
+        <span class="text-muted">{{ group.id }}</span>
+    </h4>
+
+    <dl class="row">
+        <dt class="col-sm-3">Id</dt>
+        <dl class="col-sm-9">{{ group.id }}</dl>
+        <dt class="col-sm-3">{{ 'Name'|trans }}</dt>
+        <dl class="col-sm-9">{{ group.name }}</dl>
+    </dl>
+
+    <h5>{{ 'Group roles'|trans }}</h5>
+    <table class="table table-sm table-borderless">
+        <thead>
+            <tr>
+                <th>{{ 'User'|trans }}</th>
+                <th>{{ 'Roles'|trans }}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for groupRole in groupRoles %}
+                <tr>
+                    <td>{{ groupRole.user.username }}</td>
+                    <td>{{ groupRole.roles|join(', ') }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_ui_group_list') }}" class="btn btn-secondary">
+        {{ "Back to groups"|trans }}
+    </a>
+    <a href="{{ path('app_ui_group_edit', {id: group.id}) }}" class="btn btn-primary">
+        {{ "Edit"|trans }}
+    </a>
+{% endblock %}

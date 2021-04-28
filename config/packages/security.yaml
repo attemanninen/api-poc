@@ -16,6 +16,7 @@ security:
                 provider: user_db
             logout:
                 path: app_ui_logout
+                target: app_ui_home_index
 
         main:
             stateless: true

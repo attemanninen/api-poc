@@ -21,16 +21,6 @@ class TaskGroupVoter extends Voter
     ];
 
     /**
-     * @var GroupRoleRepository
-     */
-    private $repository;
-
-    public function __construct(GroupRoleRepository $repository)
-    {
-        $this->repository = $repository;
-    }
-
-    /**
      * {@inheritDoc}
      */
     protected function supports(string $attribute, $subject)

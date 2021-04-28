@@ -6,7 +6,6 @@ use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Collections\Expr\Comparison;
 use Symfony\Component\Form\DataMapperInterface;
-use Symfony\Component\Form\Exception\TransformationFailedException;
 use Symfony\Component\Form\Exception\UnexpectedTypeException;
 use Symfony\Component\PropertyInfo\Extractor\SerializerExtractor;
 use Symfony\Component\Serializer\Mapping\Factory\ClassMetadataFactory;
@@ -57,7 +56,7 @@ class CriteriaDataMapper implements DataMapperInterface
     /**
      * {@inheritDoc}
      */
-    public function mapDataToForms($viewData, $forms): void
+    public function mapDataToForms($viewData, iterable $forms)
     {
         if (null === $viewData) {
             return;
@@ -67,15 +66,12 @@ class CriteriaDataMapper implements DataMapperInterface
         }
 
         // Not needed for now.
-        return;
     }
 
     /**
      * {@inheritDoc}
-     *
-     * @todo Use ExpressionBuilder? Criteria::expr()
      */
-    public function mapFormsToData($forms, &$viewData): void
+    public function mapFormsToData(iterable $forms, &$viewData)
     {
         $forms = iterator_to_array($forms);
 

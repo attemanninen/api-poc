@@ -1,0 +1,46 @@
+{% import _self as formMacro %}
+
+{# https://symfonycasts.com/screencast/collections/customizing-prototype #}
+{% macro printCollectionRow(groupRole) %}
+    <tr class="collection-row">
+        <td>{{ form_widget(groupRole.user) }}</td>
+        <td>{{ form_widget(groupRole.roles) }}</td>
+        <td>
+            <button type="button" class="btn btn-danger btn-xs remove-collection-row">
+                {{ 'Remove'|trans }}
+            </button>
+        </td>
+    </tr>
+{% endmacro %}
+
+{{ form_start(form) }}
+    {{ form_row(form.name) }}
+    <div>
+        {{ 'Group roles'|trans }}
+        <table class="table table-sm table-borderless">
+            <thead>
+                <tr>
+                    <th>{{ 'User'|trans }}</th>
+                    <th>{{ 'Roles'|trans }}</th>
+                </tr>
+            </thead>
+            <tbody class="collection-holder" data-prototype="{{ formMacro.printCollectionRow((form.groupRoles.vars.prototype))|e('html_attr') }}">
+                {% for groupRole in form.groupRoles %}
+                    {{ formMacro.printCollectionRow(groupRole) }}
+                {% endfor %}
+            </tbody>
+        </table>
+        <button type="button" class="btn btn-info add-collection-row" data-collection-holder-class="collection-holder">
+            {{ 'Add user'|trans }}
+        </button>
+    </div>
+
+    {% set path = group is defined ? 'app_ui_group_show' : 'app_ui_group_list' %}
+    {% set path_args = group is defined ? {id: group.id} : {} %}
+    <a href="{{ path(path, path_args) }}" class="btn btn-secondary">
+        {{ "Cancel"|trans }}
+    </a>
+    <button type="submit" class="btn btn-primary">
+        {{ 'Save'|trans }}
+    </button>
+{{ form_end(form) }}

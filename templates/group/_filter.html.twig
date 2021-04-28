@@ -1,0 +1,46 @@
+<div class="dropdown float-left mr-2">
+    <button type="button" class="btn btn-outline-secondary dropdown-toggle" id="dropdownFilterButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        {{ 'Filter'|trans }}
+        {% set count = 0 %}
+        {% for row in form %}
+            {% if loop.index is odd and row.vars.data %}
+                {% set count = count + 1 %}
+            {% endif %}
+        {% endfor %}
+        {% if count %}
+            <span class="badge badge-primary">
+                {{ count }}
+            </span>
+        {% endif %}
+    </button>
+    <div class="bg-light dropdown-menu py-0" aria-labelledby="dropdownFilterButton" style="width:260px">
+        {{ form_start(form, {'attr': {'class': 'mb-0'}}) }}
+            <div class="clearfix px-3 py-2">
+                <a href="{{ path('app_ui_group_list') }}" class="btn btn-sm btn-link float-left">
+                    {{ 'Clear'|trans }}
+                </a>
+                <button type="submit" class="btn btn-sm btn-primary float-right">
+                    {{ 'Apply'|trans }}
+                </button>
+            </div>
+            {% for row in form %}
+                {% if loop.index is odd %}
+                    <div class="border-top py-2 px-3 bg-white">
+                        {{ form_widget(row, {
+                            'attr': {
+                                'data-toggle': 'collapse',
+                                'data-target': '.filter-row' ~ (loop.index + 1)
+                            }
+                        }) }}
+                    </div>
+                    {% set show = row.vars.data ? 'show' : '' %}
+                {% else %}
+                    <div class="p-2 border-top collapse {{ 'filter-row' ~ loop.index }} {{ show }}">
+                        {{ form_widget(row) }}
+                        {{ form_errors(row) }}
+                    </div>
+                {% endif %}
+            {% endfor %}
+        {{ form_end(form) }}
+    </div>
+</div>

@@ -23,8 +23,6 @@ class Group
 
     /**
      * @ORM\ManyToOne(targetEntity=Company::class)
-     *
-     * @Groups({"public"})
      */
     private $company;
 

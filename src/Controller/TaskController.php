@@ -37,6 +37,8 @@ class TaskController extends AbstractController
     }
 
     /**
+     * @todo groups in filters parameter
+     *
      * @Route({"/tasks", "/groups/{id}/tasks"}, name="app_task_list")
      */
     public function list(Request $request, Group $group = null): Response

@@ -47,8 +47,12 @@ class Task
      * @ORM\OneToMany(
      *   targetEntity=TaskGroup::class,
      *   mappedBy="task",
-     *   orphanRemoval=true
+     *   orphanRemoval=true,
+     *   fetch="EAGER"
      * )
+     * @ORM\OrderBy({"createdAt" = "DESC"})
+     *
+     * @Groups({"public"})
      */
     private $groups;
 

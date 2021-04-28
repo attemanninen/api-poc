@@ -1,8 +1,12 @@
 <nav id="sidebar-wrapper" class="d-flex align-items-start flex-column p-5">
+    <h4 class="mb-4">PoC App</h4>
     <div id="sidebar-nav" class="my-4">
         {% set route = app.request.get('_route') %}
         <a href="{{ path('app_ui_task_list') }}" class="{{ 'task' in route ? 'active' }} my-2">
             {{ 'Tasks'|trans }}
+        </a>
+        <a href="{{ path('app_ui_group_list') }}" class="{{ 'group' in route ? 'active' }} my-2">
+            {{ 'Groups'|trans }}
         </a>
     </div>
     <div class="mt-auto">
@@ -10,5 +14,8 @@
             {{ app.user.username }}<br>
             {{ app.user.company.name }}
         </p>
+        <a href="{{ path('app_ui_logout') }}" class="btn btn-dark btn-sm">
+            {{ 'Logout'|trans }}
+        </a>
     </div>
 </nav>

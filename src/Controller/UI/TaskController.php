@@ -5,6 +5,7 @@ namespace App\Controller\UI;
 use App\Entity\Group;
 use App\Entity\Task;
 use App\Exception\FormValidationException;
+use App\Form\UI\TaskFilterType;
 use App\Form\ListParametersType;
 use App\Repository\TaskRepository;
 use Doctrine\Common\Collections\Criteria;
@@ -37,26 +38,20 @@ class TaskController extends AbstractController
     public function list(Request $request, Group $group = null): Response
     {
         $criteria = Criteria::create();
-        $form = $this->createForm(ListParametersType::class, $criteria, [
-            'model' => Task::class,
-        ]);
-        $form->submit($request->query->all());
+        $form = $this->createForm(TaskFilterType::class, $criteria);
+        $form->handleRequest($request);
 
-        if (!$form->isValid()) {
+        if ($form->isSubmitted() && !$form->isValid()) {
             throw new FormValidationException($form);
         }
 
-        if ($group) {
-            $this->denyAccessUnlessGranted('view', $group);
-            $tasks = $this->repository->matchingWithGroup($criteria, $group);
-        } else {
-            $company = $this->getUser()->getCompany();
-            $criteria->andWhere(new Comparison('company', Comparison::EQ, $company));
-            $tasks = $this->repository->matching($criteria);
-        }
+        $company = $this->getUser()->getCompany();
+        $criteria->andWhere(new Comparison('company', Comparison::EQ, $company));
+        $tasks = $this->repository->matching($criteria);
 
         return $this->render('task/list.html.twig', [
             'tasks' => $tasks,
+            'filterForm' => $form->createView()
         ]);
     }
 

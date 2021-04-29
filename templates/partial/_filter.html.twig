@@ -35,7 +35,7 @@
                     </div>
                     {% set show = row.vars.data ? 'show' : '' %}
                 {% else %}
-                    <div class="p-2 border-top collapse {{ 'filter-row' ~ loop.index }} {{ show }}">
+                    <div class="px-3 py-2 border-top collapse {{ 'filter-row' ~ loop.index }} {{ show }}">
                         {{ form_widget(row) }}
                         {{ form_errors(row) }}
                     </div>

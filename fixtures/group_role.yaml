@@ -1,21 +1,21 @@
 App\Entity\GroupRole:
     company_1_group_1_user_1_group_roles:
         __construct:
-            - '@user_1'
             - '@company_1_group_1'
+            - '@user_1'
             - ['ROLE_GROUP_TASK_ADMIN']
     company_1_group_1_user_2_group_roles:
         __construct:
-            - '@user_2'
             - '@company_1_group_1'
+            - '@user_2'
             - ['ROLE_GROUP_TASK_VIEW']
     company_1_group_2_user_1_group_roles:
         __construct:
-            - '@user_1'
             - '@company_1_group_2'
+            - '@user_1'
             - ['ROLE_GROUP_TASK_ADMIN']
     company_2_group_1_user_2_group_roles:
         __construct:
-            - '@user_2'
             - '@company_2_group_1'
+            - '@user_2'
             - ['ROLE_GROUP_TASK_ADMIN']

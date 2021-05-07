@@ -14,11 +14,7 @@ class GroupVoter extends Voter
      */
     protected function supports(string $attribute, $subject)
     {
-        if (!$subject instanceof Group) {
-            return false;
-        }
-
-        return true;
+        return $subject instanceof Group;
     }
 
     /**

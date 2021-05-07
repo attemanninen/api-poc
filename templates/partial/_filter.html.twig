@@ -23,7 +23,8 @@
                     {{ 'Apply'|trans }}
                 </button>
             </div>
-            {% for row in form %}
+            {# Note: Skip hidden CSRF token field #}
+            {% for row in form|filter(row => row.vars.name != '_token') %}
                 {% if loop.index is odd %}
                     <div class="border-top py-2 px-3 bg-white">
                         {{ form_widget(row, {

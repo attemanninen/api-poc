@@ -51,7 +51,7 @@ class TaskTeamVoter extends Voter
         foreach ($subject->getTeams() as $taskTeam) {
             foreach ($user->getTeamPermissions() as $teamPermission) {
                 if ($teamPermission->getTeam() === $taskTeam->getTeam()) {
-                    return $teamPermission->hasRole($permission);
+                    return $teamPermission->hasPermission($permission);
                 }
             }
         }

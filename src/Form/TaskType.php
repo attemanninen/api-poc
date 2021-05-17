@@ -29,7 +29,7 @@ class TaskType extends AbstractType
                 'required' => true,
             ])
             ->add('description', TextareaType::class, [
-                'required' => true,
+                'required' => false,
             ])
             ->add('teams', EntityType::class, [
                 'class' => Team::class,

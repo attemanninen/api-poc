@@ -16,12 +16,13 @@ class TaskTeamVoter extends Voter
     protected function supports(string $attribute, $subject)
     {
         // Hmm... This is not pretty.
-        if ($attribute === TeamPermission::TASK_VIEW
-            || $attribute === TeamPermission::TASK_CREATE
-            || $attribute === TeamPermission::TASK_EDIT
-            || $attribute === TeamPermission::TASK_REMOVE
+        $permission = 'task_' . $attribute;
+        if ($permission === TeamPermission::TASK_VIEW
+            || $permission === TeamPermission::TASK_CREATE
+            || $permission === TeamPermission::TASK_EDIT
+            || $permission === TeamPermission::TASK_REMOVE
         ) {
-            return false;
+            return true;
         }
 
         if (!$subject instanceof Task) {
@@ -46,10 +47,11 @@ class TaskTeamVoter extends Voter
             return true;
         }
 
+        $permission = 'task_' . $attribute;
         foreach ($subject->getTeams() as $taskTeam) {
             foreach ($user->getTeamPermissions() as $teamPermission) {
                 if ($teamPermission->getTeam() === $taskTeam->getTeam()) {
-                    return $teamPermission->hasRole($attribute);
+                    return $teamPermission->hasRole($permission);
                 }
             }
         }

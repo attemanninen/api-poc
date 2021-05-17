@@ -65,9 +65,9 @@ class User implements UserInterface
     private $roles;
 
     /**
-     * @ORM\OneToMany(targetEntity=GroupRole::class, mappedBy="user")
+     * @ORM\OneToMany(targetEntity=TeamPermission::class, mappedBy="user")
      */
-    private $groupRoles;
+    private $teamPermissions;
 
     public function __construct(
         Company $company,
@@ -77,7 +77,7 @@ class User implements UserInterface
         $this->setCompany($company);
         $this->setEmail($email);
         $this->setPlainPassword($plainPassword);
-        $this->groupRoles = new ArrayCollection();
+        $this->teamPermissions = new ArrayCollection();
         $this->roles = ['ROLE_USER'];
     }
 
@@ -161,24 +161,24 @@ class User implements UserInterface
         return $this->company;
     }
 
-    public function addGroupRole(GroupRole $groupRole): void
+    public function addTeamPermission(TeamPermission $teamPermission): void
     {
-        if (!$this->groupRoles->contains($groupRole)) {
-            $this->groupRoles->add($groupRole);
-            $groupRole->setUser($this);
+        if (!$this->teamPermissions->contains($teamPermission)) {
+            $this->teamPermissions->add($teamPermission);
+            $teamPermission->setUser($this);
         }
     }
 
-    public function getGroupRoles(): Collection
+    public function getTeamPermissions(): Collection
     {
-        return $this->groupRoles;
+        return $this->teamPermissions;
     }
 
-    public function removeGroupRole(GroupRole $groupRole): void
+    public function removeTeamPermission(TeamPermission $teamPermission): void
     {
-        if ($this->groupRoles->removeElement($groupRole)) {
-            if ($groupRole->getUser() === $this) {
-                $groupRole->setUser(null);
+        if ($this->teamPermissions->removeElement($teamPermission)) {
+            if ($teamPermission->getUser() === $this) {
+                $teamPermission->setUser(null);
             }
         }
     }

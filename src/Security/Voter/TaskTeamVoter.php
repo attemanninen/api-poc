@@ -3,29 +3,24 @@
 namespace App\Security\Voter;
 
 use App\Entity\Task;
+use App\Entity\TeamPermission;
 use App\Entity\User;
-use App\Repository\GroupRoleRepository;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
-class TaskGroupVoter extends Voter
+class TaskTeamVoter extends Voter
 {
-    /**
-     * @var array
-     */
-    public const ATTRIBUTE_TO_GROUP_ROLE_MAP = [
-        'view' => 'ROLE_GROUP_TASK_VIEW',
-        'add' => 'ROLE_GROUP_TASK_ADD',
-        'edit' => 'ROLE_GROUP_TASK_EDIT',
-        'delete' => 'ROLE_GROUP_TASK_DELETE'
-    ];
-
     /**
      * {@inheritDoc}
      */
     protected function supports(string $attribute, $subject)
     {
-        if (!isset(self::ATTRIBUTE_TO_GROUP_ROLE_MAP[$attribute])) {
+        // Hmm... This is not pretty.
+        if ($attribute === TeamPermission::TASK_VIEW
+            || $attribute === TeamPermission::TASK_CREATE
+            || $attribute === TeamPermission::TASK_EDIT
+            || $attribute === TeamPermission::TASK_REMOVE
+        ) {
             return false;
         }
 
@@ -51,10 +46,10 @@ class TaskGroupVoter extends Voter
             return true;
         }
 
-        foreach ($subject->getGroups() as $taskGroup) {
-            foreach ($user->getGroupRoles() as $groupRole) {
-                if ($groupRole->getGroup() === $taskGroup->getGroup()) {
-                    return $groupRole->hasRole(self::ATTRIBUTE_TO_GROUP_ROLE_MAP[$attribute]);
+        foreach ($subject->getTeams() as $taskTeam) {
+            foreach ($user->getTeamPermissions() as $teamPermission) {
+                if ($teamPermission->getTeam() === $taskTeam->getTeam()) {
+                    return $teamPermission->hasRole($attribute);
                 }
             }
         }

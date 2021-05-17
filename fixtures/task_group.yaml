@@ -1,5 +1,0 @@
-App\Entity\TaskGroup:
-    task_1_group_1:
-        __construct:
-            - '@company_1_task_1'
-            - '@company_1_group_1'

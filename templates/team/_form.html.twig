@@ -1,10 +1,10 @@
 {% import _self as formMacro %}
 
 {# https://symfonycasts.com/screencast/collections/customizing-prototype #}
-{% macro printCollectionRow(groupRole) %}
+{% macro printCollectionRow(teamPermission) %}
     <tr class="collection-row">
-        <td>{{ form_widget(groupRole.user) }}</td>
-        <td>{{ form_widget(groupRole.roles) }}</td>
+        <td>{{ form_widget(teamPermission.user) }}</td>
+        <td>{{ form_widget(teamPermission.permissions) }}</td>
         <td>
             <button type="button" class="btn btn-danger btn-xs remove-collection-row">
                 {{ 'Remove'|trans }}
@@ -16,17 +16,17 @@
 {{ form_start(form) }}
     {{ form_row(form.name) }}
     <div>
-        {{ 'Group roles'|trans }}
+        {{ 'User permissions'|trans }}
         <table class="table table-sm table-borderless">
             <thead>
                 <tr>
                     <th>{{ 'User'|trans }}</th>
-                    <th>{{ 'Roles'|trans }}</th>
+                    <th>{{ 'Permissions'|trans }}</th>
                 </tr>
             </thead>
-            <tbody class="collection-holder" data-prototype="{{ formMacro.printCollectionRow((form.groupRoles.vars.prototype))|e('html_attr') }}">
-                {% for groupRole in form.groupRoles %}
-                    {{ formMacro.printCollectionRow(groupRole) }}
+            <tbody class="collection-holder" data-prototype="{{ formMacro.printCollectionRow((form.teamPermissions.vars.prototype))|e('html_attr') }}">
+                {% for teamPermission in form.teamPermissions %}
+                    {{ formMacro.printCollectionRow(teamPermission) }}
                 {% endfor %}
             </tbody>
         </table>
@@ -35,8 +35,8 @@
         </button>
     </div>
 
-    {% set path = group is defined ? 'app_ui_group_show' : 'app_ui_group_list' %}
-    {% set path_args = group is defined ? {id: group.id} : {} %}
+    {% set path = team is defined ? 'app_ui_team_show' : 'app_ui_team_list' %}
+    {% set path_args = team is defined ? {id: team.id} : {} %}
     <a href="{{ path(path, path_args) }}" class="btn btn-secondary">
         {{ "Cancel"|trans }}
     </a>

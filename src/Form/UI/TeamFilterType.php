@@ -10,7 +10,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\DataMapperInterface;
 
-class GroupFilterType extends AbstractType implements DataMapperInterface
+class TeamFilterType extends AbstractType implements DataMapperInterface
 {
     /**
      * {@inheritDoc}

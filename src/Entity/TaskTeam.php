@@ -2,17 +2,17 @@
 
 namespace App\Entity;
 
-use App\Repository\TaskGroupRepository;
+use App\Repository\TaskTeamRepository;
 use DateTime;
 use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
- * @ORM\Entity(repositoryClass=TaskGroupRepository::class)
+ * @ORM\Entity(repositoryClass=TaskTeamRepository::class)
  * @ORM\HasLifecycleCallbacks
  */
-class TaskGroup
+class TaskTeam
 {
     /**
      * @ORM\Id
@@ -22,21 +22,21 @@ class TaskGroup
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Task::class, inversedBy="groups")
+     * @ORM\ManyToOne(targetEntity=Task::class, inversedBy="teams")
      * @ORM\JoinColumn(nullable=false)
      */
     private $task;
 
     /**
      * @ORM\ManyToOne(
-     *   targetEntity=Group::class,
+     *   targetEntity=Team::class,
      *   fetch="EAGER"
      * )
      * @ORM\JoinColumn(nullable=false)
      *
      * @Groups({"public"})
      */
-    private $group;
+    private $team;
 
     /**
      * @ORM\Column(type="datetime")
@@ -45,10 +45,10 @@ class TaskGroup
      */
     private $createdAt;
 
-    public function __construct(Task $task, Group $group)
+    public function __construct(Task $task, Team $team)
     {
         $this->task = $task;
-        $this->group = $group;
+        $this->team = $team;
     }
 
     /**
@@ -76,14 +76,14 @@ class TaskGroup
         return $this;
     }
 
-    public function getGroup(): ?Group
+    public function getTeam(): ?Team
     {
-        return $this->group;
+        return $this->team;
     }
 
-    public function setGroup(?Group $group): self
+    public function setTeam(?Team $team): self
     {
-        $this->group = $group;
+        $this->team = $team;
 
         return $this;
     }

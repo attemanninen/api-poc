@@ -19,11 +19,11 @@ class TaskData
     /**
      * @var array
      */
-    public $groups;
+    public $teams;
 
     public function __construct()
     {
-        $this->groups = [];
+        $this->teams = [];
     }
 
     public static function fromTask(Task $task): self
@@ -32,8 +32,8 @@ class TaskData
         $data->name = $task->getName();
         $data->description = $task->getDescription();
 
-        foreach ($task->getGroups() as $taskGroup) {
-            $data->groups[] = $taskGroup->getGroup();
+        foreach ($task->getTeams() as $taskTeam) {
+            $data->teams[] = $taskTeam->getTeam();
         }
 
         return $data;

@@ -48,10 +48,10 @@
                     <td>{{ task.name }}</td>
                     <td>{{ task.description|default('-')|u.truncate(50, '...') }}</td>
                     <td>
-                        {% for taskGroup in task.groups %}
+                        {% for taskTeam in task.teams %}
                             <h5>
                                 <span class="badge rounded-pill bg-light text-dark">
-                                    {{ taskGroup.group.name }}
+                                    {{ taskTeam.team.name }}
                                 </span>
                             </h5>
                         {% else %}

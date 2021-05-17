@@ -2,9 +2,9 @@
 
 namespace App\Form;
 
-use App\Entity\Group;
+use App\Entity\Team;
 use App\Form\DataTransferObject\TaskData;
-use App\Repository\GroupRepository;
+use App\Repository\TeamRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -14,16 +14,16 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class TaskType extends AbstractType
 {
-    private $groupRepository;
+    private $teamRepository;
 
-    public function __construct(GroupRepository $groupRepository)
+    public function __construct(TeamRepository $teamRepository)
     {
-        $this->groupRepository = $groupRepository;
+        $this->teamRepository = $teamRepository;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $groups = $this->groupRepository->findBy(['company' => $options['company']]);
+        $teams = $this->teamRepository->findBy(['company' => $options['company']]);
         $builder
             ->add('name', TextType::class, [
                 'required' => true,
@@ -31,10 +31,10 @@ class TaskType extends AbstractType
             ->add('description', TextareaType::class, [
                 'required' => true,
             ])
-            ->add('groups', EntityType::class, [
-                'class' => Group::class,
+            ->add('teams', EntityType::class, [
+                'class' => Team::class,
                 'choice_label' => 'name',
-                'choices' => $groups,
+                'choices' => $teams,
                 'required' => false,
                 'multiple' => true,
                 'expanded' => true,

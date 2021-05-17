@@ -2,7 +2,7 @@
 
 namespace App\Repository;
 
-use App\Entity\Group;
+use App\Entity\Team;
 use App\Entity\Task;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Collections\Criteria;
@@ -15,26 +15,26 @@ class TaskRepository extends ServiceEntityRepository
         parent::__construct($registry, Task::class);
     }
 
-    public function matchingWithGroup(Criteria $criteria, Group $group): array
+    public function matchingWithTeam(Criteria $criteria, Team $team): array
     {
         $qb = $this->createQueryBuilder('t')
             ->addCriteria($criteria)
-            ->innerJoin('t.groups', 'tg')
-            ->innerJoin('tg.group', 'g')
-            ->andWhere('g.id = :group')
-            ->setParameter('group', $group);
+            ->innerJoin('t.teams', 'tt')
+            ->innerJoin('tt.team', 't')
+            ->andWhere('t.id = :team')
+            ->setParameter('team', $team);
 
         return $qb->getQuery()->execute();
     }
 
-    public function matchingWithGroups(Criteria $criteria, iterable $groups): array
+    public function matchingWithTeams(Criteria $criteria, iterable $teams): array
     {
         $qb = $this->createQueryBuilder('t')
             ->addCriteria($criteria)
-            ->innerJoin('t.groups', 'tg')
-            ->innerJoin('tg.group', 'g')
-            ->andWhere('g.id IN (:groups)')
-            ->setParameter('groups', $groups);
+            ->innerJoin('t.teams', 'tt')
+            ->innerJoin('tt.team', 't')
+            ->andWhere('t.id IN (:teams)')
+            ->setParameter('teams', $teams);
 
         return $qb->getQuery()->execute();
     }

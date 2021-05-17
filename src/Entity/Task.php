@@ -45,7 +45,7 @@ class Task
 
     /**
      * @ORM\OneToMany(
-     *   targetEntity=TaskGroup::class,
+     *   targetEntity=TaskTeam::class,
      *   mappedBy="task",
      *   orphanRemoval=true,
      *   fetch="EAGER"
@@ -54,13 +54,13 @@ class Task
      *
      * @Groups({"public"})
      */
-    private $groups;
+    private $teams;
 
     public function __construct(Company $company, string $name)
     {
         $this->setCompany($company);
         $this->setName($name);
-        $this->groups = new ArrayCollection();
+        $this->teams = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -98,34 +98,34 @@ class Task
         return $this->description;
     }
 
-    public function addGroup(TaskGroup $group): void
+    public function addTeam(TaskTeam $team): void
     {
-        if (!$this->groups->contains($group)) {
-            $this->groups->add($group);
+        if (!$this->teams->contains($team)) {
+            $this->teams->add($team);
         }
     }
 
-    public function getGroups(): Collection
+    public function getTeams(): Collection
     {
-        return $this->groups;
+        return $this->teams;
     }
 
-    public function getGroup(Group $group): ?TaskGroup
+    public function getTeam(Team $team): ?TaskTeam
     {
-        foreach ($this->getGroups() as $taskGroup) {
-            if ($taskGroup->getGroup() === $group) {
-                return $taskGroup;
+        foreach ($this->getTeams() as $taskTeam) {
+            if ($taskTeam->getTeam() === $team) {
+                return $taskTeam;
             }
         }
 
         return null;
     }
 
-    public function removeGroup(TaskGroup $group): void
+    public function removeTeam(TaskTeam $team): void
     {
-        if ($this->groups->removeElement($group)) {
-            if ($group->getTask() === $this) {
-                $group->setTask(null);
+        if ($this->teams->removeElement($team)) {
+            if ($team->getTask() === $this) {
+                $team->setTask(null);
             }
         }
     }

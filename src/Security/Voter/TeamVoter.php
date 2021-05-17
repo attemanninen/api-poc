@@ -2,19 +2,19 @@
 
 namespace App\Security\Voter;
 
-use App\Entity\Group;
+use App\Entity\Team;
 use App\Entity\User;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
-class GroupVoter extends Voter
+class TeamVoter extends Voter
 {
     /**
      * {@inheritDoc}
      */
     protected function supports(string $attribute, $subject)
     {
-        return $subject instanceof Group;
+        return $subject instanceof Team;
     }
 
     /**

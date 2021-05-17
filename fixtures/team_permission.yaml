@@ -1,0 +1,34 @@
+App\Entity\TeamPermission:
+    company_1_team_1_user_1_team_permission:
+        __construct:
+            - '@company_1_team_1'
+            - '@user_1'
+            -
+              - task_view
+              - task_create
+              - task_edit
+              - task_remove
+    company_1_team_1_user_2_team_permission:
+        __construct:
+            - '@company_1_team_1'
+            - '@user_2'
+            -
+              - task_view
+    company_1_team_2_user_1_team_permission:
+        __construct:
+            - '@company_1_team_2'
+            - '@user_1'
+            -
+              - task_view
+              - task_create
+              - task_edit
+              - task_remove
+    company_2_team_1_user_2_team_permission:
+        __construct:
+            - '@company_2_team_1'
+            - '@user_2'
+            -
+              - task_view
+              - task_create
+              - task_edit
+              - task_remove

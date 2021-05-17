@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Entity\Group;
+use App\Entity\Team;
 use App\Entity\Task;
 use App\Exception\FormValidationException;
 use App\Form\ListParametersType;
@@ -37,11 +37,11 @@ class TaskController extends AbstractController
     }
 
     /**
-     * @todo groups in filters parameter
+     * @todo teams in filters parameter
      *
-     * @Route({"/tasks", "/groups/{id}/tasks"}, name="app_task_list")
+     * @Route({"/tasks", "/teams/{id}/tasks"}, name="app_task_list")
      */
-    public function list(Request $request, Group $group = null): Response
+    public function list(Request $request, Team $team = null): Response
     {
         $criteria = Criteria::create();
         $form = $this->createForm(ListParametersType::class, $criteria, [
@@ -53,9 +53,9 @@ class TaskController extends AbstractController
             throw new FormValidationException($form);
         }
 
-        if ($group) {
-            $this->denyAccessUnlessGranted('view', $group);
-            $tasks = $this->repository->matchingWithGroup($criteria, $group);
+        if ($team) {
+            $this->denyAccessUnlessGranted('view', $team);
+            $tasks = $this->repository->matchingWithTeam($criteria, $team);
         } else {
             $company = $this->getUser()->getCompany();
             $criteria->andWhere(new Comparison('company', Comparison::EQ, $company));

@@ -2,15 +2,15 @@
 
 namespace App\Entity;
 
-use App\Repository\GroupRepository;
+use App\Repository\TeamRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
- * @ORM\Entity(repositoryClass=GroupRepository::class)
- * @ORM\Table(name="`group`")
+ * @ORM\Entity(repositoryClass=TeamRepository::class)
+ * @ORM\Table(name="team")
  */
-class Group
+class Team
 {
     /**
      * @ORM\Id

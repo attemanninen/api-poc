@@ -2,14 +2,14 @@
 
 namespace App\Form;
 
-use App\Form\DataTransferObject\GroupData;
+use App\Form\DataTransferObject\TeamData;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class GroupType extends AbstractType
+class TeamType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -17,9 +17,9 @@ class GroupType extends AbstractType
             ->add('name', TextType::class, [
                 'required' => true,
             ])
-            ->add('groupRoles', CollectionType::class, [
+            ->add('teamPermissions', CollectionType::class, [
                 'label' => false,
-                'entry_type' => GroupRoleType::class,
+                'entry_type' => TeamPermissionType::class,
                 'entry_options' => ['label' => false],
                 'allow_add' => true,
                 'allow_delete' => true,
@@ -31,7 +31,7 @@ class GroupType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => GroupData::class,
+            'data_class' => TeamData::class,
         ]);
     }
 }

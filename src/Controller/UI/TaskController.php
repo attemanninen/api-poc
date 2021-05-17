@@ -3,7 +3,7 @@
 namespace App\Controller\UI;
 
 use App\Entity\Task;
-use App\Entity\TaskGroup;
+use App\Entity\TaskTeam;
 use App\Exception\FormValidationException;
 use App\Form\DataTransferObject\TaskData;
 use App\Form\TaskType;
@@ -55,9 +55,9 @@ class TaskController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $task = new Task($company, $taskData->name);
             $taskData->updateTask($task);
-            foreach ($taskData->groups as $group) {
-                $taskGroup = new TaskGroup($task, $group);
-                $this->entityManager->persist($taskGroup);
+            foreach ($taskData->teams as $team) {
+                $taskTeam = new TaskTeam($task, $team);
+                $this->entityManager->persist($taskTeam);
             }
             $this->entityManager->persist($task);
             $this->entityManager->flush();
@@ -89,9 +89,9 @@ class TaskController extends AbstractController
             throw new FormValidationException($form);
         }
 
-        $groups = $form->get('groups')->getData();
-        if ($form->get('enable_groups')->getData() && $groups) {
-            $tasks = $this->repository->matchingWithGroups($criteria, $groups);
+        $teams = $form->get('teams')->getData();
+        if ($form->get('enable_teams')->getData() && $teams) {
+            $tasks = $this->repository->matchingWithTeams($criteria, $teams);
         } else {
             $company = $this->getUser()->getCompany();
             $criteria->andWhere(new Comparison('company', Comparison::EQ, $company));
@@ -134,22 +134,22 @@ class TaskController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $taskData->updateTask($task);
 
-            foreach ($taskData->groups as $group) {
-                if (!$task->getGroup($group)) {
-                    $taskGroup = new TaskGroup($task, $group);
-                    $this->entityManager->persist($taskGroup);
+            foreach ($taskData->teams as $team) {
+                if (!$task->getTeam($team)) {
+                    $taskTeam = new TaskTeam($task, $team);
+                    $this->entityManager->persist($taskTeam);
                 }
             }
 
-            foreach ($task->getGroups() as $taskGroup) {
+            foreach ($task->getTeams() as $taskTeam) {
                 $found = false;
-                foreach ($taskData->groups as $group) {
-                    if ($taskGroup->getGroup() === $group) {
+                foreach ($taskData->teams as $team) {
+                    if ($taskTeam->getTeam() === $team) {
                         $found = true;
                     }
                 }
                 if (!$found) {
-                    $this->entityManager->remove($taskGroup);
+                    $this->entityManager->remove($taskTeam);
                 }
             }
 

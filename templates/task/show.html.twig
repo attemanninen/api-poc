@@ -13,12 +13,12 @@
         <dl class="col-sm-9">{{ task.name }}</dl>
         <dt class="col-sm-3">{{ 'Description'|trans }}</dt>
         <dl class="col-sm-9">{{ task.description|default('-') }}</dl>
-        <dt class="col-sm-3">{{ 'Groups'|trans }}</dt>
+        <dt class="col-sm-3">{{ 'Teams'|trans }}</dt>
         <dl class="col-sm-9">
-            {% for taskGroup in task.groups %}
+            {% for taskTeam in task.teams %}
                 <h5>
                     <span class="badge rounded-pill bg-light text-dark">
-                        {{ taskGroup.group.name }}
+                        {{ taskTeam.team.name }}
                     </span>
                 </h5>
             {% else %}

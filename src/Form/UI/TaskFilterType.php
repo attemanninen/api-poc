@@ -2,8 +2,8 @@
 
 namespace App\Form\UI;
 
-use App\Entity\Group;
-use App\Repository\GroupRepository;
+use App\Entity\Team;
+use App\Repository\TeamRepository;
 use Doctrine\Common\Collections\Criteria;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -15,11 +15,11 @@ use Symfony\Component\Form\DataMapperInterface;
 
 class TaskFilterType extends AbstractType implements DataMapperInterface
 {
-    private $groupRepository;
+    private $teamRepository;
 
-    public function __construct(GroupRepository $groupRepository)
+    public function __construct(TeamRepository $teamRepository)
     {
-        $this->groupRepository = $groupRepository;
+        $this->teamRepository = $teamRepository;
     }
 
     /**
@@ -27,7 +27,7 @@ class TaskFilterType extends AbstractType implements DataMapperInterface
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $groups = $this->groupRepository->findByUserGroupRoles($options['user']);
+        $teams = $this->teamRepository->findByUserTeamPermissions($options['user']);
         $builder
             ->add('enable_name', CheckboxType::class, [
                 'label' => 'Name',
@@ -37,14 +37,14 @@ class TaskFilterType extends AbstractType implements DataMapperInterface
                 'label' => false,
                 'required' => false,
             ])
-            ->add('enable_groups', CheckboxType::class, [
-                'label' => 'Groups',
+            ->add('enable_teams', CheckboxType::class, [
+                'label' => 'Teams',
                 'required' => false,
             ])
-            ->add('groups', EntityType::class, [
-                'class' => Group::class,
+            ->add('teams', EntityType::class, [
+                'class' => Team::class,
                 'choice_label' => 'name',
-                'choices' => $groups,
+                'choices' => $teams,
                 'required' => false,
                 'multiple' => true,
                 'expanded' => true,

@@ -2,7 +2,7 @@
     <button type="button" class="btn btn-outline-secondary dropdown-toggle" id="dropdownFilterButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         {{ 'Filter'|trans }}
         {% set count = 0 %}
-        {% for row in form %}
+        {% for row in form|filter(row => row.vars.name != '_token') %}
             {% if loop.index is odd and row.vars.data %}
                 {% set count = count + 1 %}
             {% endif %}

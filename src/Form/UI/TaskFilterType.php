@@ -44,7 +44,7 @@ class TaskFilterType extends AbstractType implements DataMapperInterface
                 'required' => false,
             ])
             ->add('teams_enabled', CheckboxType::class, [
-                'label' => 'Teams',
+                'label' => $options['company_teams_as_choices'] ? 'Company teams' : 'Your teams',
                 'required' => false,
             ])
             ->add('teams', EntityType::class, [

@@ -11,6 +11,19 @@
             </a>
         </div>
     </div>
+    <ul class="nav nav-tabs mb-5">
+        <li class="nav-item">
+            <a class="nav-link active" href="#">
+                {{ "Company tasks"|trans }}
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">
+                {{ 'Shared'|trans }}
+                {# TODO: Add th 'Company' ? #}
+            </a>
+        </li>
+    </ul>
     <div class="row mb-4">
         <div class="col">
             {{ include('partial/_filter.html.twig', {

@@ -27,9 +27,15 @@ class TaskFilterType extends AbstractType implements DataMapperInterface
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $teams = $this->teamRepository->findByUserTeamPermissions($options['user']);
+        $user = $options['user'];
+        if ($options['company_teams_as_choices']) {
+            $teams = $this->teamRepository->findBy(['company' => $user->getCompany()]);
+        } else {
+            $teams = $this->teamRepository->findByUserTeamPermissions($user);
+        }
+
         $builder
-            ->add('enable_name', CheckboxType::class, [
+            ->add('name_enabled', CheckboxType::class, [
                 'label' => 'Name',
                 'required' => false,
             ])
@@ -37,7 +43,7 @@ class TaskFilterType extends AbstractType implements DataMapperInterface
                 'label' => false,
                 'required' => false,
             ])
-            ->add('enable_teams', CheckboxType::class, [
+            ->add('teams_enabled', CheckboxType::class, [
                 'label' => 'Teams',
                 'required' => false,
             ])
@@ -58,7 +64,10 @@ class TaskFilterType extends AbstractType implements DataMapperInterface
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefault('method', 'GET');
+        $resolver->setDefaults([
+            'method' => 'GET',
+            'company_teams_as_choices' => true
+        ]);
         $resolver->setRequired('user');
     }
 
@@ -77,7 +86,7 @@ class TaskFilterType extends AbstractType implements DataMapperInterface
     {
         $forms = iterator_to_array($forms);
 
-        if ($forms['enable_name']->getData()) {
+        if ($forms['name_enabled']->getData()) {
             $name = $forms['name']->getData();
             $viewData->andWhere(Criteria::expr()->eq('name', $name));
         }

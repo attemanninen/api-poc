@@ -5,8 +5,8 @@ namespace App\Repository;
 use App\Entity\Team;
 use App\Entity\TeamPermission;
 use App\Entity\User;
-use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\Persistence\ManagerRegistry;
 
 class TeamRepository extends ServiceEntityRepository
@@ -18,9 +18,14 @@ class TeamRepository extends ServiceEntityRepository
 
     public function findByUserTeamPermissions(User $user): array
     {
-        $qb = $this->createQueryBuilder('t')
-            ->innerJoin(TeamPermission::class, 'tp', Join::WITH, 'tp.team = t.id')
-            ->where('tp.user = :user')
+        $qb = $this->createQueryBuilder('team')
+            ->innerJoin(
+                TeamPermission::class,
+                'teamPermission',
+                Join::WITH,
+                'teamPermission.team = team.id'
+            )
+            ->where('teamPermission.user = :user')
             ->setParameter('user', $user);
 
         return $qb->getQuery()->execute();

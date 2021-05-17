@@ -43,9 +43,9 @@ http://127.0.0.1:8000/customers?fields=id,name
 ## Endpoint ideas
 
 ```
-GET /tasks                   # Returns company's all tasks
-GET /groups/{id}/tasks       # Returns all tasks belonging to group {id}
-GET /groups/all/tasks        # Returns all tasks belonging to any user's groups
+GET /tasks                  # Returns company's all tasks
+GET /teams/{id}/tasks       # Returns all tasks belonging to team {id}
+GET /teams/all/tasks        # Returns all tasks belonging to any user's teams
 
-GET /groups/all/tasks?filters=group:eq:123,456
+GET /teams/all/tasks?filters=group:eq:123,456
 ```

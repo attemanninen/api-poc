@@ -55,7 +55,7 @@ class TaskController extends AbstractController
 
         if ($team) {
             $this->denyAccessUnlessGranted('view', $team);
-            $tasks = $this->repository->matchingWithTeam($criteria, $team);
+            $tasks = $this->repository->matchingWithTeams($criteria, [$team]);
         } else {
             $company = $this->getUser()->getCompany();
             $criteria->andWhere(new Comparison('company', Comparison::EQ, $company));

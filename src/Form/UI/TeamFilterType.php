@@ -18,7 +18,7 @@ class TeamFilterType extends AbstractType implements DataMapperInterface
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('enable_name', CheckboxType::class, [
+            ->add('name_enabled', CheckboxType::class, [
                 'label' => 'Name',
                 'required' => false,
             ])
@@ -53,7 +53,7 @@ class TeamFilterType extends AbstractType implements DataMapperInterface
     {
         $forms = iterator_to_array($forms);
 
-        if ($forms['enable_name']->getData()) {
+        if ($forms['name_enabled']->getData()) {
             $name = $forms['name']->getData();
             $viewData->andWhere(Criteria::expr()->eq('name', $name));
         }

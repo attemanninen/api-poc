@@ -2,10 +2,12 @@
 
 namespace App\Repository;
 
-use App\Entity\Team;
 use App\Entity\Task;
+use App\Entity\TeamPermission;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Collections\Criteria;
+use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\Persistence\ManagerRegistry;
 
 class TaskRepository extends ServiceEntityRepository
@@ -15,26 +17,32 @@ class TaskRepository extends ServiceEntityRepository
         parent::__construct($registry, Task::class);
     }
 
-    public function matchingWithTeam(Criteria $criteria, Team $team): array
+    public function matchingWithTeams(Criteria $criteria, iterable $teams): array
     {
-        $qb = $this->createQueryBuilder('t')
+        $qb = $this->createQueryBuilder('task')
             ->addCriteria($criteria)
-            ->innerJoin('t.teams', 'tt')
-            ->innerJoin('tt.team', 't')
-            ->andWhere('t.id = :team')
-            ->setParameter('team', $team);
+            ->innerJoin('task.teams', 'taskTeam')
+            ->innerJoin('taskTeam.team', 'team')
+            ->andWhere('team.id IN (:teams)')
+            ->setParameter('teams', $teams);
 
         return $qb->getQuery()->execute();
     }
 
-    public function matchingWithTeams(Criteria $criteria, iterable $teams): array
+    public function matchingWithAnyTeam(Criteria $criteria, User $user): array
     {
-        $qb = $this->createQueryBuilder('t')
+        $qb = $this->createQueryBuilder('task')
             ->addCriteria($criteria)
-            ->innerJoin('t.teams', 'tt')
-            ->innerJoin('tt.team', 't')
-            ->andWhere('t.id IN (:teams)')
-            ->setParameter('teams', $teams);
+            ->innerJoin('task.teams', 'taskTeam')
+            ->innerJoin('taskTeam.team', 'team')
+            ->innerJoin(
+                TeamPermission::class,
+                'teamPermission',
+                Join::WITH,
+                'teamPermission.team = team.id'
+            )
+            ->where('teamPermission.user = :user')
+            ->setParameter('user', $user);
 
         return $qb->getQuery()->execute();
     }

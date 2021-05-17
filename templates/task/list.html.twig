@@ -12,15 +12,15 @@
         </div>
     </div>
     <ul class="nav nav-tabs mb-5">
+        {% set route = app.request.get('_route') %}
         <li class="nav-item">
-            <a class="nav-link active" href="#">
+            <a class="nav-link {{ 'shared' not in route ? 'active' }}" href="{{ path('app_ui_task_list') }}">
                 {{ "Company tasks"|trans }}
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="#">
+            <a class="nav-link {{ 'shared' in route ? 'active' }}" href="{{ path('app_ui_task_list_shared') }}">
                 {{ 'Shared'|trans }}
-                {# TODO: Add th 'Company' ? #}
             </a>
         </li>
     </ul>

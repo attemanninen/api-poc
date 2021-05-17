@@ -90,12 +90,41 @@ class TaskController extends AbstractController
         }
 
         $teams = $form->get('teams')->getData();
-        if ($form->get('enable_teams')->getData() && $teams) {
+        if ($form->get('teams_enabled')->getData() && $teams) {
             $tasks = $this->repository->matchingWithTeams($criteria, $teams);
         } else {
             $company = $this->getUser()->getCompany();
             $criteria->andWhere(new Comparison('company', Comparison::EQ, $company));
             $tasks = $this->repository->matching($criteria);
+        }
+
+        return $this->render('task/list.html.twig', [
+            'tasks' => $tasks,
+            'filterForm' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/shared", name="list_shared")
+     */
+    public function listShared(Request $request): Response
+    {
+        $criteria = Criteria::create();
+        $form = $this->createForm(TaskFilterType::class, $criteria, [
+            'user' => $this->getUser(),
+            'company_teams_as_choices' => false
+        ]);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && !$form->isValid()) {
+            throw new FormValidationException($form);
+        }
+
+        $teams = $form->get('teams')->getData();
+        if ($form->get('teams_enabled')->getData() && $teams) {
+            $tasks = $this->repository->matchingWithTeams($criteria, $teams);
+        } else {
+            $tasks = $this->repository->matchingWithAnyTeam($criteria, $this->getUser());
         }
 
         return $this->render('task/list.html.twig', [

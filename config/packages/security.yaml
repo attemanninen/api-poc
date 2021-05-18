@@ -5,7 +5,6 @@ security:
     enable_authenticator_manager: true
     providers:
         user_db: { entity: { class: 'App:User', property: username } }
-        api_key_db: { entity: { class: 'App:User', property: apiKey } }
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
@@ -20,7 +19,6 @@ security:
 
         main:
             stateless: true
-            provider: api_key_db
             custom_authenticators:
                 - App\Security\ApiKeyAuthenticator
 

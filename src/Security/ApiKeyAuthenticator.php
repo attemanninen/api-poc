@@ -2,6 +2,7 @@
 
 namespace App\Security;
 
+use App\Repository\UserRepository;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,6 +16,13 @@ use Symfony\Component\Security\Http\Authenticator\Passport\SelfValidatingPasspor
 
 class ApiKeyAuthenticator extends AbstractAuthenticator
 {
+    private $userRepository;
+
+    public function __construct(UserRepository $userRepository)
+    {
+        $this->userRepository = $userRepository;
+    }
+
     /**
      * {@inheritDoc}
      */
@@ -32,10 +40,14 @@ class ApiKeyAuthenticator extends AbstractAuthenticator
     {
         $apiKey = substr($request->headers->get('Authorization'), 7);
         if (null === $apiKey) {
-            throw new CustomUserMessageAuthenticationException('No API token provided');
+            throw new CustomUserMessageAuthenticationException('No API token provided.');
         }
 
-        return new SelfValidatingPassport(new UserBadge($apiKey));
+        return new SelfValidatingPassport(
+            new UserBadge($apiKey, function($userIdentifier) {
+                return $this->userRepository->findOneBy(['apiKey' => $userIdentifier]);
+            })
+        );
     }
 
     /**

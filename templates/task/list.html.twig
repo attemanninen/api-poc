@@ -1,0 +1,80 @@
+{% extends 'base.html.twig' %}
+
+{% block main %}
+    <div class="row mb-5">
+        <div class="col">
+            <h4 class="float-left">
+                {{ 'Tasks'|trans }}
+            </h4>
+            <a href="{{ path('app_ui_task_create') }}" class="btn btn-success float-right">
+                {{ 'Create task'|trans }}
+            </a>
+        </div>
+    </div>
+    <ul class="nav nav-tabs mb-5">
+        {% set route = app.request.get('_route') %}
+        <li class="nav-item">
+            <a class="nav-link {{ 'shared' not in route ? 'active' }}" href="{{ path('app_ui_task_list') }}">
+                {{ "Company tasks"|trans }}
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link {{ 'shared' in route ? 'active' }}" href="{{ path('app_ui_task_list_shared') }}">
+                {{ 'Shared'|trans }}
+            </a>
+        </li>
+    </ul>
+    <div class="row mb-4">
+        <div class="col">
+            {{ include('partial/_filter.html.twig', {
+                form: filterForm
+            }, with_context = false) }}
+        </div>
+    </div>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>{{ 'Id'|trans }}</th>
+                <th>{{ 'Name'|trans }}</th>
+                <th>{{ 'Description'|trans }}</th>
+                <th>{{ 'Teams'|trans }}</th>
+                <th>{{ 'Actions'|trans }}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for task in tasks %}
+                <tr data-href="{{ path('app_ui_task_show', {id: task.id }) }}">
+                    <td>{{ task.id }}</td>
+                    <td>{{ task.name }}</td>
+                    <td>{{ task.description|default('-')|u.truncate(50, '...') }}</td>
+                    <td>
+                        {% for taskTeam in task.teams %}
+                            <h5>
+                                <span class="badge rounded-pill bg-light text-dark">
+                                    {{ taskTeam.team.name }}
+                                </span>
+                            </h5>
+                        {% else %}
+                            -
+                        {% endfor %}
+                    </td>
+                    <td>
+                        <div class="dropdown">
+                            <button type="button" class="btn btn-light dropdown-toggle" id="dropdownActionsButton{{ loop.index }}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                {{ 'Actions'|trans }}
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownActionsButton{{ loop.index }}">
+                                <a href="{{ path('app_ui_task_show', {id: task.id}) }}" class="dropdown-item">
+                                    {{ 'Show task'|trans }}
+                                </a>
+                                {# <a href="{{ path('app_ui_task_edit', {id: task.id}) }}" class="dropdown-item">
+                                    {{ 'Edit task'|trans }}
+                                </a> #}
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

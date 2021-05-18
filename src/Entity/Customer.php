@@ -21,6 +21,11 @@ class Customer
     private $id;
 
     /**
+     * @ORM\ManyToOne(targetEntity="Company")
+     */
+    private $company;
+
+    /**
      * @ORM\Column(type="string", length=255)
      *
      * @Groups({"public"})
@@ -34,8 +39,9 @@ class Customer
      */
     private $email;
 
-    public function __construct(string $name)
+    public function __construct(Company $company, string $name)
     {
+        $this->setCompany($company);
         $this->setName($name);
     }
 
@@ -44,16 +50,19 @@ class Customer
         return $this->id;
     }
 
+    public function setName(string $name): void
+    {
+        $this->name = $name;
+    }
+
     public function getName(): ?string
     {
         return $this->name;
     }
 
-    public function setName(string $name): self
+    public function setEmail(?string $email): void
     {
-        $this->name = $name;
-
-        return $this;
+        $this->email = $email;
     }
 
     public function getEmail(): ?string
@@ -61,10 +70,13 @@ class Customer
         return $this->email;
     }
 
-    public function setEmail(?string $email): self
+    public function setCompany(Company $company): void
     {
-        $this->email = $email;
+        $this->company = $company;
+    }
 
-        return $this;
+    public function getCompany(): Company
+    {
+        return $this->company;
     }
 }

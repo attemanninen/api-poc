@@ -1,0 +1,38 @@
+security:
+    encoders:
+        App\Entity\User:
+            algorithm: auto
+    enable_authenticator_manager: true
+    providers:
+        user_db: { entity: { class: 'App:User', property: username } }
+        api_key_db: { entity: { class: 'App:User', property: apiKey } }
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+        ui:
+            pattern: ^/ui
+            custom_authenticator: App\Security\LoginFormAuthenticator
+            provider: user_db
+            logout:
+                path: app_ui_logout
+                target: app_ui_login
+
+        main:
+            stateless: true
+            provider: api_key_db
+            custom_authenticators:
+                - App\Security\ApiKeyAuthenticator
+
+    access_control:
+        - { path: '^/ui/login', roles: PUBLIC_ACCESS }
+        - { path: '^/', roles: ROLE_USER }
+
+    role_hierarchy:
+        ROLE_ADMIN: ROLE_USER
+        ROLE_SUPER_ADMIN: [ROLE_ADMIN, ROLE_GROUP_ADMIN]
+        ROLE_GROUP_TASK_ADMIN:
+            - ROLE_GROUP_TASK_VIEW
+            - ROLE_GROUP_TASK_ADD
+            - ROLE_GROUP_TASK_EDIT
+            - ROLE_GROUP_TASK_DELETE

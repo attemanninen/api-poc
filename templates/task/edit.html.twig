@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block main %}
+    <h4 class="mb-5">
+        {{ 'Edit task'|trans }}
+        <span class="text-muted">{{ task.id }}</span>
+    </h4>
+
+    {{ include('task/_form.html.twig', {
+        form: form
+    }) }}
+{% endblock %}

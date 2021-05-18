@@ -7,6 +7,7 @@ use App\Exception\FormValidationException;
 use App\Form\ListParametersType;
 use App\Repository\CustomerRepository;
 use Doctrine\Common\Collections\Criteria;
+use Doctrine\Common\Collections\Expr\Comparison;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -34,6 +35,8 @@ class CustomerController extends AbstractController
             throw new FormValidationException($form);
         }
 
+        $company = $this->getUser()->getCompany();
+        $criteria->andWhere(new Comparison('company', Comparison::EQ, $company));
         $customers = $repository->matching($criteria);
 
         $context = [AbstractNormalizer::GROUPS => 'public'];

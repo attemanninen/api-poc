@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+{% block main %}
+    <h4 class="mb-5">
+        {{ 'New team'|trans }}
+    </h4>
+    {{ include('team/_form.html.twig', {
+        form: form
+    }) }}
+{% endblock %}

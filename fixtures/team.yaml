@@ -1,0 +1,13 @@
+App\Entity\Team:
+    company_1_team_1:
+        __construct:
+            - '@company_1'
+            - 'Company 1 Team 1'
+    company_1_team_2:
+        __construct:
+            - '@company_1'
+            - 'Company 1 Team 2'
+    company_2_team_1:
+        __construct:
+            - '@company_2'
+            - 'Company 2 Team 1'

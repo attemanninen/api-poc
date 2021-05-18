@@ -61,15 +61,15 @@ class FormValidationException extends HttpException implements AdditionalDetails
     {
         $errors = [];
         foreach ($form->getErrors() as $error) {
-            if ($cause = $error->getCause()) {
-                $message = $cause->getInvalidMessage();
-                // TODO: Remove this.
-                if (!$message) {
-                    $message = $cause->getMessage();
-                }
-            } else {
+            // if ($cause = $error->getCause()) {
+            //     $message = $cause->getInvalidMessage();
+            //     // TODO: Remove this.
+            //     if (!$message) {
+            //         $message = $cause->getMessage();
+            //     }
+            // } else {
                 $message = $error->getMessage();
-            }
+            // }
             $errors[] = ['message' => $message];
         }
         foreach ($form->all() as $childForm) {

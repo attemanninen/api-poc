@@ -18,7 +18,7 @@ use Symfony\Component\Serializer\SerializerInterface;
 class TeamPermissionController extends AbstractController
 {
     /**
-     * @Route("/team-roles", name="app_team_role_list")
+     * @Route("/team-permissions", name="app_team_permission_list")
      */
     public function list(
         Request $request,

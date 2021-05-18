@@ -55,7 +55,10 @@ class ListParametersType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefault('empty_data', null);
+        $resolver->setDefaults([
+            'empty_data' => null,
+            'csrf_protection' => false
+        ]);
         $resolver->setRequired('model');
     }
 }

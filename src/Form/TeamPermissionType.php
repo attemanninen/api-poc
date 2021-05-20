@@ -19,6 +19,8 @@ class TeamPermissionType extends AbstractType
             ])
             ->add('permissions', ChoiceType::class, [
                 'choices' => [
+                    'Edit team' => TeamPermission::TEAM_EDIT,
+                    'Remove team' => TeamPermission::TEAM_REMOVE,
                     'View task' => TeamPermission::TASK_VIEW,
                     'Create task' => TeamPermission::TASK_CREATE,
                     'Edit task' => TeamPermission::TASK_EDIT,

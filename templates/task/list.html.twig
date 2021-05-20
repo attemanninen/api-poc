@@ -35,6 +35,7 @@
         <thead>
             <tr>
                 <th>{{ 'Id'|trans }}</th>
+                <th>{{ 'Created At'|trans }}</th>
                 <th>{{ 'Name'|trans }}</th>
                 <th>{{ 'Description'|trans }}</th>
                 <th>{{ 'Teams'|trans }}</th>
@@ -45,6 +46,7 @@
             {% for task in tasks %}
                 <tr data-href="{{ path('app_ui_task_show', {id: task.id }) }}">
                     <td>{{ task.id }}</td>
+                    <td>{{ task.createdAt|date() }}</td>
                     <td>{{ task.name }}</td>
                     <td>{{ task.description|default('-')|u.truncate(50, '...') }}</td>
                     <td>

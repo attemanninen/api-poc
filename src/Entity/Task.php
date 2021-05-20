@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\TaskRepository;
+use DateTimeImmutable;
+use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -10,6 +12,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=TaskRepository::class)
+ * @ORM\HasLifecycleCallbacks
  */
 class Task
 {
@@ -21,6 +24,13 @@ class Task
      * @Groups({"public"})
      */
     private $id;
+
+    /**
+     * @ORM\Column(type="datetime")
+     *
+     * @Groups({"public"})
+     */
+    private $createdAt;
 
     /**
      * @ORM\ManyToOne(targetEntity="Company")
@@ -63,9 +73,22 @@ class Task
         $this->teams = new ArrayCollection();
     }
 
+    /**
+     * @ORM\PrePersist
+     */
+    public function onPrePersist(): void
+    {
+        $this->createdAt = new DateTimeImmutable('now');
+    }
+
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getCreatedAt(): DateTimeInterface
+    {
+        return $this->createdAt;
     }
 
     public function setCompany(Company $company): void

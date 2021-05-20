@@ -10,12 +10,23 @@
         </a>
     </div>
     <div class="mt-auto">
-        <p>
-            {{ app.user.username }}<br>
-            {{ app.user.company.name }}
-        </p>
-        <a href="{{ path('app_ui_logout') }}" class="btn btn-dark btn-sm">
-            {{ 'Logout'|trans }}
-        </a>
+        <div class="btn-group dropup">
+            <button type="button" class="btn btn-outline-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                {{ 'Profile'|trans }}
+            </button>
+            <div class="dropdown-menu">
+                <p class="pl-4 pt-2">
+                    <strong>{{ app.user.username }}</strong><br>
+                    {{ app.user.company.name }}
+                </p>
+                <hr>
+                <a href="{{ path('app_ui_user_me') }}" class="dropdown-item">
+                    {{ 'Show profile'|trans }}
+                </a>
+                <a href="{{ path('app_ui_logout') }}" class="dropdown-item">
+                    {{ 'Sign out'|trans }}
+                </a>
+            </div>
+        </div>
     </div>
 </nav>

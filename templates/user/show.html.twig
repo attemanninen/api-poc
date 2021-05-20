@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block main %}
+    <h4 class="mb-5">
+        {% set header = app.user == user ? 'Profile' : 'User' %}
+        {{ header|trans }}
+        {% if header == 'User' %}
+            <span class="text-muted">{{ user.id }}</span>
+        {% endif %}
+    </h4>
+    <dl class="row">
+        <dt class="col-sm-3">Id</dt>
+        <dl class="col-sm-9">{{ user.id }}</dl>
+        <dt class="col-sm-3">{{ 'Username'|trans }}</dt>
+        <dl class="col-sm-9">{{ user.username }}</dl>
+        <dt class="col-sm-3">{{ 'Email'|trans }}</dt>
+        <dl class="col-sm-9">{{ user.email }}</dl>
+    </dl>
+{% endblock %}

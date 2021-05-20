@@ -15,7 +15,7 @@
 
 {{ form_start(form) }}
     {{ form_row(form.name) }}
-    <div>
+    <div class="clearfix">
         {{ 'User permissions'|trans }}
         <table class="table table-sm table-borderless">
             <thead>
@@ -30,7 +30,7 @@
                 {% endfor %}
             </tbody>
         </table>
-        <button type="button" class="btn btn-info add-collection-row" data-collection-holder-class="collection-holder">
+        <button type="button" class="btn btn-info add-collection-row float-right" data-collection-holder-class="collection-holder">
             {{ 'Add user'|trans }}
         </button>
     </div>

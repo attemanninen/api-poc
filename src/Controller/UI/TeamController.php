@@ -106,6 +106,29 @@ class TeamController extends AbstractController
     }
 
     /**
+     * @Route("/shared", name="list_shared")
+     */
+    public function listShared(Request $request): Response
+    {
+        $criteria = Criteria::create();
+        $form = $this->createForm(TeamFilterType::class, $criteria);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && !$form->isValid()) {
+            throw new FormValidationException($form);
+        }
+
+        $teams = $this
+            ->repository
+            ->matchingWithUserTeamPermissions($criteria, $this->getUser());
+
+        return $this->render('team/list.html.twig', [
+            'teams' => $teams,
+            'filterForm' => $form->createView()
+        ]);
+    }
+
+    /**
      * @Route("/{id}", name="show")
      */
     public function show(

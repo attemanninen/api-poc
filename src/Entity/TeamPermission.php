@@ -13,6 +13,12 @@ use Symfony\Component\Serializer\Annotation\Groups;
 class TeamPermission
 {
     /**
+     * Team permissions.
+     */
+    public const TEAM_EDIT = 'team_edit';
+    public const TEAM_REMOVE = 'team_remove';
+
+    /**
      * Task permissions.
      */
     public const TASK_VIEW = 'task_view';

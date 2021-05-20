@@ -8,6 +8,9 @@
         <a href="{{ path('app_ui_team_list') }}" class="{{ 'team' in route ? 'active' }} my-2">
             {{ 'Teams'|trans }}
         </a>
+        <a href="{{ path('app_ui_user_list') }}" class="{{ 'user' in route and 'me' not in route ? 'active' }} my-2">
+            {{ 'Users'|trans }}
+        </a>
     </div>
     <div class="mt-auto">
         <div class="btn-group dropup">

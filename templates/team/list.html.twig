@@ -11,6 +11,19 @@
             </a>
         </div>
     </div>
+    <ul class="nav nav-tabs mb-5">
+        {% set route = app.request.get('_route') %}
+        <li class="nav-item">
+            <a class="nav-link {{ 'shared' not in route ? 'active' }}" href="{{ path('app_ui_team_list') }}">
+                {{ "Company teams"|trans }}
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link {{ 'shared' in route ? 'active' }}" href="{{ path('app_ui_team_list_shared') }}">
+                {{ 'Shared'|trans }}
+            </a>
+        </li>
+    </ul>
     <div class="row mb-4">
         <div class="col">
             {{ include('partial/_filter.html.twig', {

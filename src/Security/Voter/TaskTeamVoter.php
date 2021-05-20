@@ -15,6 +15,10 @@ class TaskTeamVoter extends Voter
      */
     protected function supports(string $attribute, $subject)
     {
+        if (!$subject instanceof Task) {
+            return false;
+        }
+
         // Hmm... This is not pretty.
         $permission = 'task_' . $attribute;
         if ($permission === TeamPermission::TASK_VIEW
@@ -25,11 +29,7 @@ class TaskTeamVoter extends Voter
             return true;
         }
 
-        if (!$subject instanceof Task) {
-            return false;
-        }
-
-        return true;
+        return false;
     }
 
     /**

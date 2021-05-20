@@ -27,7 +27,8 @@
         </dl>
     </dl>
 
-    <a href="{{ path('app_ui_task_list') }}" class="btn btn-secondary">
+    {% set route = 'shared' in app.request.headers.get('referer') ? 'app_ui_task_list_shared' : 'app_ui_task_list' %}
+    <a href="{{ path(route) }}" class="btn btn-secondary">
         {{ "Back to tasks"|trans }}
     </a>
     <a href="{{ path('app_ui_task_edit', {id: task.id}) }}" class="btn btn-primary">

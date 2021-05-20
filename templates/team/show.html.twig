@@ -9,6 +9,8 @@
     <dl class="row">
         <dt class="col-sm-3">Id</dt>
         <dl class="col-sm-9">{{ team.id }}</dl>
+        <dt class="col-sm-3">{{ 'Owner'|trans }}</dt>
+        <dl class="col-sm-9">{{ team.company.name }}</dl>
         <dt class="col-sm-3">{{ 'Name'|trans }}</dt>
         <dl class="col-sm-9">{{ team.name }}</dl>
     </dl>
@@ -31,7 +33,8 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_ui_team_list') }}" class="btn btn-secondary">
+    {% set route = 'shared' in app.request.headers.get('referer') ? 'app_ui_team_list_shared' : 'app_ui_team_list' %}
+    <a href="{{ path(route) }}" class="btn btn-secondary">
         {{ "Back to teams"|trans }}
     </a>
     <a href="{{ path('app_ui_team_edit', {id: team.id}) }}" class="btn btn-primary">

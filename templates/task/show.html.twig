@@ -13,6 +13,8 @@
         <dl class="col-sm-9">{{ task.name }}</dl>
         <dt class="col-sm-3">{{ 'Description'|trans }}</dt>
         <dl class="col-sm-9">{{ task.description|default('-') }}</dl>
+        <dt class="col-sm-3">{{ 'Customer'|trans }}</dt>
+        <dl class="col-sm-9">{{ task.customer.name|default('-') }}</dl>
         <dt class="col-sm-3">{{ 'Teams'|trans }}</dt>
         <dl class="col-sm-9">
             {% for taskTeam in task.teams %}

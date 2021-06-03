@@ -54,6 +54,14 @@ class Task
     private $description;
 
     /**
+     * @ORM\ManyToOne(targetEntity="Customer")
+     * @ORM\JoinColumn(nullable=true)
+     *
+     * @Groups({"public"})
+     */
+    private $customer;
+
+    /**
      * @ORM\OneToMany(
      *   targetEntity=TaskTeam::class,
      *   mappedBy="task",
@@ -119,6 +127,16 @@ class Task
     public function getDescription(): ?string
     {
         return $this->description;
+    }
+
+    public function setCustomer(?Customer $customer = null): void
+    {
+        $this->customer = $customer;
+    }
+
+    public function getCustomer(): ?Customer
+    {
+        return $this->customer;
     }
 
     public function addTeam(TaskTeam $team): void

@@ -11,6 +11,8 @@
     <dl class="row">
         <dt class="col-sm-3">Id</dt>
         <dl class="col-sm-9">{{ user.id }}</dl>
+        <dt class="col-sm-3">{{ 'Company'|trans }}</dt>
+        <dl class="col-sm-9">{{ user.company.name }}</dl>
         <dt class="col-sm-3">{{ 'Username'|trans }}</dt>
         <dl class="col-sm-9">{{ user.username }}</dl>
         <dt class="col-sm-3">{{ 'Email'|trans }}</dt>

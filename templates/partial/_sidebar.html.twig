@@ -3,12 +3,15 @@
     <div id="sidebar-nav" class="my-4">
         {% set route = app.request.get('_route') %}
         <a href="{{ path('app_ui_task_list') }}" class="{{ 'task' in route ? 'active' }} my-2">
+            <i class="bi bi-journal-check pr-2"></i>
             {{ 'Tasks'|trans }}
         </a>
         <a href="{{ path('app_ui_team_list') }}" class="{{ 'team' in route ? 'active' }} my-2">
+            <i class="bi bi-people-fill pr-2"></i>
             {{ 'Teams'|trans }}
         </a>
         <a href="{{ path('app_ui_user_list') }}" class="{{ 'user' in route and 'me' not in route ? 'active' }} my-2">
+            <i class="bi bi-file-person pr-2"></i>
             {{ 'Users'|trans }}
         </a>
     </div>

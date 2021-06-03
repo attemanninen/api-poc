@@ -2,27 +2,23 @@
 
 namespace App\Form\DataTransferObject;
 
+use App\Entity\Customer;
 use App\Entity\Task;
 
 class TaskData
 {
-    /**
-     * @var string
-     */
-    public $name;
+    public string $name;
 
-    /**
-     * @var string
-     */
-    public $description;
+    public ?string $description;
 
-    /**
-     * @var array
-     */
-    public $teams;
+    public ?Customer $customer;
+
+    public iterable $teams;
 
     public function __construct()
     {
+        $this->description = null;
+        $this->customer = null;
         $this->teams = [];
     }
 
@@ -31,6 +27,7 @@ class TaskData
         $data = new self();
         $data->name = $task->getName();
         $data->description = $task->getDescription();
+        $data->customer = $task->getCustomer();
 
         foreach ($task->getTeams() as $taskTeam) {
             $data->teams[] = $taskTeam->getTeam();
@@ -43,5 +40,6 @@ class TaskData
     {
         $task->setName($this->name);
         $task->setDescription($this->description);
+        $task->setCustomer($this->customer);
     }
 }

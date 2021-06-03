@@ -7,25 +7,18 @@ use App\Entity\Task;
 
 class TaskData
 {
-    /**
-     * @var string
-     */
-    public $name;
+    public string $name;
 
-    /**
-     * @var string
-     */
-    public $description;
+    public ?string $description;
 
     public ?Customer $customer;
 
-    /**
-     * @var array
-     */
-    public $teams;
+    public iterable $teams;
 
     public function __construct()
     {
+        $this->description = null;
+        $this->customer = null;
         $this->teams = [];
     }
 

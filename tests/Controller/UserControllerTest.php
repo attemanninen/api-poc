@@ -2,12 +2,14 @@
 
 namespace App\Tests\Controller;
 
+use App\Test\ApiResponseAssertationsTrait;
 use App\Test\AuthenticatedClientTrait;
 use App\Test\DatabaseTrait;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class UserControllerTest extends WebTestCase
 {
+    use ApiResponseAssertationsTrait;
     use AuthenticatedClientTrait;
     use DatabaseTrait;
 
@@ -31,5 +33,11 @@ class UserControllerTest extends WebTestCase
     {
         $this->client->request('GET', '/me');
         $this->assertResponseIsSuccessful();
+        $this->assertResponseAttributes([
+            'id',
+            'company',
+            'username',
+            'email'
+        ]);
     }
 }

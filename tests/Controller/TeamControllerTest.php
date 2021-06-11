@@ -6,7 +6,7 @@ use App\Test\AuthenticatedClientTrait;
 use App\Test\DatabaseTrait;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class UserControllerTest extends WebTestCase
+class TeamControllerTest extends WebTestCase
 {
     use AuthenticatedClientTrait;
     use DatabaseTrait;
@@ -17,7 +17,7 @@ class UserControllerTest extends WebTestCase
     {
         $this->client = static::createClient();
 
-        $this->loadFixtures(['company', 'user']);
+        $this->loadFixtures(['company', 'user', 'task', 'customer', 'team']);
         $this->authenticateUser('user-1');
     }
 
@@ -29,7 +29,7 @@ class UserControllerTest extends WebTestCase
 
     public function testMe(): void
     {
-        $this->client->request('GET', '/me');
+        $this->client->request('GET', '/teams');
         $this->assertResponseIsSuccessful();
     }
 }

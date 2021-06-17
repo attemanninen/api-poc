@@ -14,7 +14,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * @ORM\Entity(repositoryClass=TaskRepository::class)
  * @ORM\HasLifecycleCallbacks
  */
-class Task
+class Task implements ShareableInterface
 {
     /**
      * @ORM\Id

@@ -37,15 +37,8 @@ class ListParametersType extends AbstractType
 
         $builder->get('fields')
             ->addModelTransformer(new CallbackTransformer(
-                function ($fieldsAsArray) {
-                    return '';
-                },
-                function ($fieldsAsString) {
-                    if (!$fieldsAsString) {
-                        return [];
-                    }
-                    return explode(',', $fieldsAsString);
-                }
+                fn ($fieldsAsArray) => '',
+                fn ($fieldsAsString) => $fieldsAsString ? explode(',', $fieldsAsString) : [],
             ))
         ;
     }

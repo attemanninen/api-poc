@@ -3,12 +3,15 @@ App\Entity\Task:
         __construct:
             - '@company_1'
             - 'Company 1 Task 1'
+        id: 1
     company_1_task_2:
         __construct:
             - '@company_1'
             - 'Company 1 Task 2'
         customer: '@company_1_customer_1'
+        id: 2
     company_2_task_1:
         __construct:
             - '@company_2'
             - 'Company 2 Task 1'
+        id: 3

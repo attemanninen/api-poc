@@ -2,7 +2,7 @@
 
 {% block main %}
     <h4 class="mb-5">
-        {% set header = app.user == user ? 'Profile' : 'User' %}
+        {% set header = app.request.get('_route') == 'app_ui_user_me' ? 'Profile' : 'User' %}
         {{ header|trans }}
         {% if header == 'User' %}
             <span class="text-muted">{{ user.id }}</span>

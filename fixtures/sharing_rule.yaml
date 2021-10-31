@@ -1,0 +1,21 @@
+App\Entity\SharingRule:
+    sharing_rule_1:
+        __construct:
+            - '@company_1'
+            - 'company'
+            - '@company_1->getId()'
+            - 'App\Entity\Task'
+            - 'id'
+            - '@company_1_task_1->getId()'
+            - ['view']
+            - 'allow'
+    sharing_rule_2:
+        __construct:
+            - '@company_2'
+            - 'company'
+            - '@company_1->getId()'
+            - 'App\Entity\Task'
+            - 'id'
+            - '@company_2_task_1->getId()'
+            - ['view']
+            - 'allow'

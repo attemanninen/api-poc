@@ -14,7 +14,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * @ORM\Entity(repositoryClass=TaskRepository::class)
  * @ORM\HasLifecycleCallbacks
  */
-class Task
+class Task implements ShareableInterface
 {
     /**
      * @ORM\Id
@@ -87,6 +87,11 @@ class Task
     public function onPrePersist(): void
     {
         $this->createdAt = new DateTimeImmutable('now');
+    }
+
+    public function setId($id): void
+    {
+        $this->id = $id;
     }
 
     public function getId(): ?int

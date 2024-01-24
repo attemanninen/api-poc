@@ -81,7 +81,7 @@ class CriteriaDataMapper implements DataMapperInterface
         if ($orderBys = $forms['orderBy']->getData()) {
             $orderings = [];
             foreach (explode(',', $orderBys) as $orderBy) {
-                [$field, $order] = explode('+', $orderBy);
+                [$field, $order] = explode(' ', $orderBy);
                 if (!in_array($field, $this->getModelPublicProperties())) {
                     continue;
                 }

@@ -27,15 +27,15 @@ symfony server:start
 
 ## list() action features
 
-Try `/customers` endpoint with GET parameters.
+Use API token `sk_user_1` and try `/customers` endpoint.
 
-Use `pageSize`, `page`, `orderBy`, `filters`, `search` and `fields`.
+Use `pageSize`, `page`, `orderBy`, `filters`, `search` and `fields` parameters.
 
 ```
 http://127.0.0.1:8000/customers
 http://127.0.0.1:8000/customers?pageSize=1&page=2
-http://127.0.0.1:8000/customers?orderBy=id%2BDESC
-http://127.0.0.1:8000/customers?filters=name%3Alike%3AExample%7CFoo
+http://127.0.0.1:8000/customers?orderBy=id DESC
+http://127.0.0.1:8000/customers?filters=name:like:Example
 http://127.0.0.1:8000/customers?search=Bar
 http://127.0.0.1:8000/customers?fields=id,name
 ```

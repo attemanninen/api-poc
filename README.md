@@ -27,7 +27,7 @@ symfony server:start
 
 ## list() action features
 
-Use API token `sk_user_1` and try `/customers` endpoint.
+Use API token `sk_user_1` and try `/customers` endpoint (base URL is `http://127.0.0.1:8000` when running `symfony server:start`).
 
 Use `pageSize`, `page`, `orderBy`, `filters`, `search` and `fields` parameters.
 

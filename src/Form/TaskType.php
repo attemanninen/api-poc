@@ -21,7 +21,7 @@ class TaskType extends AbstractType
 
     public function __construct(
         CustomerRepository $customerRepository,
-        TeamRepository $teamRepository
+        TeamRepository $teamRepository,
     ) {
         $this->customerRepository = $customerRepository;
         $this->teamRepository = $teamRepository;
@@ -58,8 +58,7 @@ class TaskType extends AbstractType
                 'required' => false,
                 'multiple' => true,
                 'expanded' => true,
-            ])
-        ;
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)

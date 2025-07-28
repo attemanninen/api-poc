@@ -36,6 +36,7 @@ class TeamVoter extends Voter
 
         // Hmm... This is not pretty.
         $permission = 'team_' . $attribute;
+
         if ($permission === TeamPermission::TEAM_EDIT
             || $permission === TeamPermission::TEAM_REMOVE
         ) {
@@ -58,7 +59,7 @@ class TeamVoter extends Voter
 
         $teamPermission = $this->teamPermissionRepository->findOneBy([
             'team' => $subject,
-            'user' => $user
+            'user' => $user,
         ]);
 
         if ($teamPermission && $attribute === 'view') {

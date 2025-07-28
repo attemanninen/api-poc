@@ -19,7 +19,7 @@ class UserController extends AbstractController
     private $repository;
 
     public function __construct(
-        UserRepository $repository
+        UserRepository $repository,
     ) {
         $this->repository = $repository;
     }
@@ -30,7 +30,7 @@ class UserController extends AbstractController
     public function list(): Response
     {
         $users = $this->repository->findBy([
-            'company' => $this->getUser()->getCompany()
+            'company' => $this->getUser()->getCompany(),
         ]);
 
         return $this->render('user/list.html.twig', [

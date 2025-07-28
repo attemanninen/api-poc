@@ -61,6 +61,7 @@ class CriteriaDataMapper implements DataMapperInterface
         if (null === $viewData) {
             return;
         }
+
         if (!$viewData instanceof Criteria) {
             throw new UnexpectedTypeException($viewData, Criteria::class);
         }
@@ -80,8 +81,10 @@ class CriteriaDataMapper implements DataMapperInterface
 
         if ($orderBys = $forms['orderBy']->getData()) {
             $orderings = [];
+
             foreach (explode(',', $orderBys) as $orderBy) {
                 [$field, $order] = explode(' ', $orderBy);
+
                 if (!in_array($field, $this->getModelPublicProperties())) {
                     continue;
                 }
@@ -95,12 +98,14 @@ class CriteriaDataMapper implements DataMapperInterface
         if ($filters = $forms['filters']->getData()) {
             foreach (explode(',', $filters) as $filter) {
                 [$field, $operator, $values] = explode(':', $filter);
+
                 if (!in_array($field, $this->getModelPublicProperties())) {
                     continue;
                 }
 
                 foreach (explode('|', $values) as $index => $value) {
                     $expr = new Comparison($field, self::OPERATOR_MAP[$operator], $value);
+
                     if ($index === 0) {
                         $viewData->andWhere($expr);
                     } else {
@@ -112,8 +117,10 @@ class CriteriaDataMapper implements DataMapperInterface
 
         if ($search = $forms['search']->getData()) {
             $properties = $this->getModelPublicProperties();
+
             foreach ($properties as $index => $property) {
                 $expr = new Comparison($property, Comparison::CONTAINS, $search);
+
                 if ($index === 0) {
                     $viewData->andWhere($expr);
                 } else {
@@ -127,7 +134,7 @@ class CriteriaDataMapper implements DataMapperInterface
     {
         if (!$this->modelPublicProperties) {
             $serializerClassMetadataFactory = new ClassMetadataFactory(
-                new AnnotationLoader(new AnnotationReader)
+                new AnnotationLoader(new AnnotationReader())
             );
             $serializerExtractor = new SerializerExtractor($serializerClassMetadataFactory);
             $this->modelPublicProperties = $serializerExtractor->getProperties(

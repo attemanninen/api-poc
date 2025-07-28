@@ -15,8 +15,6 @@ class FormValidationException extends HttpException implements AdditionalDetails
 
     /**
      * Constructor.
-     *
-     * @param FormInterface $form
      */
     public function __construct(FormInterface $form)
     {
@@ -26,8 +24,6 @@ class FormValidationException extends HttpException implements AdditionalDetails
 
     /**
      * Get form.
-     *
-     * @return FormInterface
      */
     public function getForm(): FormInterface
     {
@@ -52,14 +48,11 @@ class FormValidationException extends HttpException implements AdditionalDetails
 
     /**
      * Get form errors.
-     *
-     * @param FormInterface $form
-     *
-     * @return array
      */
     private function getFormErrors(FormInterface $form): array
     {
         $errors = [];
+
         foreach ($form->getErrors() as $error) {
             // if ($cause = $error->getCause()) {
             //     $message = $cause->getInvalidMessage();
@@ -68,17 +61,18 @@ class FormValidationException extends HttpException implements AdditionalDetails
             //         $message = $cause->getMessage();
             //     }
             // } else {
-                $message = $error->getMessage();
+            $message = $error->getMessage();
             // }
             $errors[] = ['message' => $message];
         }
+
         foreach ($form->all() as $childForm) {
             if ($childForm instanceof FormInterface) {
                 if ($childErrors = $this->getFormErrors($childForm)) {
                     foreach ($childErrors as $childError) {
                         $errors[] = [
                             'field' => $childForm->getName(),
-                            'message' => $childError['message']
+                            'message' => $childError['message'],
                         ];
                     }
                 }

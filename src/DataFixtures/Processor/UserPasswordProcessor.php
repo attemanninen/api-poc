@@ -19,7 +19,7 @@ final class UserPasswordProcessor implements ProcessorInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function preProcess(string $fixtureId, $object): void
     {
@@ -28,6 +28,7 @@ final class UserPasswordProcessor implements ProcessorInterface
         }
 
         $plainPassword = $object->getPlainPassword();
+
         if (!$plainPassword) {
             return;
         }
@@ -37,7 +38,7 @@ final class UserPasswordProcessor implements ProcessorInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function postProcess(string $fixtureId, $object): void
     {

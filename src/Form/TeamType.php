@@ -24,8 +24,7 @@ class TeamType extends AbstractType
                 'allow_add' => true,
                 'allow_delete' => true,
                 'prototype_name' => '__prot__',
-            ])
-        ;
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)

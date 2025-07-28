@@ -21,6 +21,7 @@ class TaskTeamVoter extends Voter
 
         // Hmm... This is not pretty.
         $permission = 'task_' . $attribute;
+
         if ($permission === TeamPermission::TASK_VIEW
             || $permission === TeamPermission::TASK_CREATE
             || $permission === TeamPermission::TASK_EDIT
@@ -48,6 +49,7 @@ class TaskTeamVoter extends Voter
         }
 
         $permission = 'task_' . $attribute;
+
         foreach ($subject->getTeams() as $taskTeam) {
             foreach ($user->getTeamPermissions() as $teamPermission) {
                 if ($teamPermission->getTeam() === $taskTeam->getTeam()) {

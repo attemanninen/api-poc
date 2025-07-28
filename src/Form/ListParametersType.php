@@ -32,15 +32,13 @@ class ListParametersType extends AbstractType
             ->add('fields', TextType::class, [
                 'mapped' => false,
             ])
-            ->setDataMapper(new CriteriaDataMapper($options['model']))
-        ;
+            ->setDataMapper(new CriteriaDataMapper($options['model']));
 
         $builder->get('fields')
             ->addModelTransformer(new CallbackTransformer(
                 fn ($fieldsAsArray) => '',
                 fn ($fieldsAsString) => $fieldsAsString ? explode(',', $fieldsAsString) : [],
-            ))
-        ;
+            ));
     }
 
     /**
@@ -50,7 +48,7 @@ class ListParametersType extends AbstractType
     {
         $resolver->setDefaults([
             'empty_data' => null,
-            'csrf_protection' => false
+            'csrf_protection' => false,
         ]);
         $resolver->setRequired('model');
     }

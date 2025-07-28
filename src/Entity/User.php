@@ -72,7 +72,7 @@ class User implements UserInterface
     public function __construct(
         Company $company,
         string $email,
-        string $plainPassword
+        string $plainPassword,
     ) {
         $this->setCompany($company);
         $this->setEmail($email);
@@ -148,7 +148,6 @@ class User implements UserInterface
 
     public function eraseCredentials(): void
     {
-        return;
     }
 
     public function setCompany(Company $company): void

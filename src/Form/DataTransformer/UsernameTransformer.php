@@ -22,7 +22,7 @@ class UsernameTransformer implements DataTransformerInterface
     /**
      * Transforms an object (user) to a string (username).
      *
-     * @param  User|null $user
+     * @param User|null $user
      */
     public function transform($user): string
     {
@@ -36,8 +36,8 @@ class UsernameTransformer implements DataTransformerInterface
     /**
      * Transforms a string (username) to an object (user).
      *
-     * @param  string $username
-     * @throws TransformationFailedException if object (user) is not found.
+     * @param string $username
+     * @throws TransformationFailedException if object (user) is not found
      */
     public function reverseTransform($username): ?User
     {
@@ -48,7 +48,6 @@ class UsernameTransformer implements DataTransformerInterface
         $user = $this->entityManager
             ->getRepository(User::class)
             ->findOneBy(['username' => $username]);
-        ;
 
         if (null === $user) {
             throw new TransformationFailedException(sprintf(

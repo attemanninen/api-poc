@@ -34,7 +34,7 @@ class TaskController extends AbstractController
 
     public function __construct(
         EntityManagerInterface $entityManager,
-        TaskRepository $repository
+        TaskRepository $repository,
     ) {
         $this->entityManager = $entityManager;
         $this->repository = $repository;
@@ -48,13 +48,15 @@ class TaskController extends AbstractController
         $taskData = new TaskData();
         $company = $this->getUser()->getCompany();
         $form = $this->createForm(TaskType::class, $taskData, [
-            'company' => $company
+            'company' => $company,
         ]);
 
         $form->handleRequest($request);
+
         if ($form->isSubmitted() && $form->isValid()) {
             $task = new Task($company, $taskData->name);
             $taskData->updateTask($task);
+
             foreach ($taskData->teams as $team) {
                 $taskTeam = new TaskTeam($task, $team);
                 $this->entityManager->persist($taskTeam);
@@ -81,7 +83,7 @@ class TaskController extends AbstractController
     {
         $criteria = Criteria::create();
         $form = $this->createForm(TaskFilterType::class, $criteria, [
-            'user' => $this->getUser()
+            'user' => $this->getUser(),
         ]);
         $form->handleRequest($request);
 
@@ -90,6 +92,7 @@ class TaskController extends AbstractController
         }
 
         $teams = $form->get('teams')->getData();
+
         if ($form->get('teams_enabled')->getData() && $teams) {
             $tasks = $this->repository->matchingWithTeams($criteria, $teams);
         } else {
@@ -112,7 +115,7 @@ class TaskController extends AbstractController
         $criteria = Criteria::create();
         $form = $this->createForm(TaskFilterType::class, $criteria, [
             'user' => $this->getUser(),
-            'company_teams_as_choices' => false
+            'company_teams_as_choices' => false,
         ]);
         $form->handleRequest($request);
 
@@ -121,6 +124,7 @@ class TaskController extends AbstractController
         }
 
         $teams = $form->get('teams')->getData();
+
         if ($form->get('teams_enabled')->getData() && $teams) {
             $tasks = $this->repository->matchingWithTeams($criteria, $teams);
         } else {
@@ -150,16 +154,17 @@ class TaskController extends AbstractController
      */
     public function edit(
         Task $task,
-        Request $request
+        Request $request,
     ): Response {
         $this->denyAccessUnlessGranted('edit', $task);
 
         $taskData = TaskData::fromTask($task);
         $form = $this->createForm(TaskType::class, $taskData, [
-            'company' => $this->getUser()->getCompany()
+            'company' => $this->getUser()->getCompany(),
         ]);
 
         $form->handleRequest($request);
+
         if ($form->isSubmitted() && $form->isValid()) {
             $taskData->updateTask($task);
 
@@ -172,11 +177,13 @@ class TaskController extends AbstractController
 
             foreach ($task->getTeams() as $taskTeam) {
                 $found = false;
+
                 foreach ($taskData->teams as $team) {
                     if ($taskTeam->getTeam() === $team) {
                         $found = true;
                     }
                 }
+
                 if (!$found) {
                     $this->entityManager->remove($taskTeam);
                 }

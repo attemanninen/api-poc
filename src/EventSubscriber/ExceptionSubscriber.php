@@ -28,8 +28,6 @@ class ExceptionSubscriber implements EventSubscriberInterface
 
     /**
      * Set response.
-     *
-     * @param ExceptionEvent $event
      */
     public function setResponse(ExceptionEvent $event)
     {
@@ -56,6 +54,7 @@ class ExceptionSubscriber implements EventSubscriberInterface
             if ($description = $exception->getDescription()) {
                 $payload['description'] = $description;
             }
+
             if ($errors = $exception->getErrors()) {
                 $payload['errors'] = $errors;
             }

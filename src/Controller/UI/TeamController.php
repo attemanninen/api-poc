@@ -9,8 +9,8 @@ use App\Form\DataTransferObject\TeamData;
 use App\Form\DataTransferObject\TeamPermissionData;
 use App\Form\TeamType;
 use App\Form\UI\TeamFilterType;
-use App\Repository\TeamRepository;
 use App\Repository\TeamPermissionRepository;
+use App\Repository\TeamRepository;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Collections\Expr\Comparison;
 use Doctrine\ORM\EntityManagerInterface;
@@ -36,7 +36,7 @@ class TeamController extends AbstractController
 
     public function __construct(
         EntityManagerInterface $entityManager,
-        TeamRepository $repository
+        TeamRepository $repository,
     ) {
         $this->entityManager = $entityManager;
         $this->repository = $repository;
@@ -52,6 +52,7 @@ class TeamController extends AbstractController
         $form = $this->createForm(TeamType::class, $teamData);
 
         $form->handleRequest($request);
+
         if ($form->isSubmitted() && $form->isValid()) {
             $team = new Team(
                 $this->getUser()->getCompany(),
@@ -101,7 +102,7 @@ class TeamController extends AbstractController
 
         return $this->render('team/list.html.twig', [
             'teams' => $teams,
-            'filterForm' => $form->createView()
+            'filterForm' => $form->createView(),
         ]);
     }
 
@@ -124,7 +125,7 @@ class TeamController extends AbstractController
 
         return $this->render('team/list.html.twig', [
             'teams' => $teams,
-            'filterForm' => $form->createView()
+            'filterForm' => $form->createView(),
         ]);
     }
 
@@ -133,7 +134,7 @@ class TeamController extends AbstractController
      */
     public function show(
         Team $team,
-        TeamPermissionRepository $teamPermissionRepository
+        TeamPermissionRepository $teamPermissionRepository,
     ): Response {
         $this->denyAccessUnlessGranted('view', $team);
 
@@ -151,7 +152,7 @@ class TeamController extends AbstractController
     public function edit(
         Team $team,
         TeamPermissionRepository $teamPermissionRepository,
-        Request $request
+        Request $request,
     ): Response {
         $this->denyAccessUnlessGranted('edit', $team);
 
@@ -161,17 +162,20 @@ class TeamController extends AbstractController
         $form = $this->createForm(TeamType::class, $teamData);
 
         $form->handleRequest($request);
+
         if ($form->isSubmitted() && $form->isValid()) {
             $teamData->updateTeam($team);
 
             foreach ($teamData->teamPermissions as $teamPermissionData) {
                 $newTeamPermission = true;
+
                 foreach ($teamPermissions as $teamPermission) {
                     if ($teamPermissionData->user === $teamPermission->getUser()) {
                         $teamPermissionData->updateTeamPermission($teamPermission);
                         $newTeamPermission = false;
                     }
                 }
+
                 if ($newTeamPermission) {
                     $teamPermission = new TeamPermission(
                         $team,
@@ -185,12 +189,14 @@ class TeamController extends AbstractController
             // Check team permissions to be removed
             foreach ($teamPermissions as $teamPermission) {
                 $found = false;
+
                 foreach ($teamData->teamPermissions as $teamPermissionData) {
                     if ($teamPermission->getUser() === $teamPermissionData->user) {
                         $teamPermissionData->updateTeamPermission($teamPermission);
                         $found = true;
                     }
                 }
+
                 if (!$found) {
                     $this->entityManager->remove($teamPermission);
                 }

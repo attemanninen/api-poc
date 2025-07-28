@@ -7,11 +7,11 @@ use App\Repository\TeamRepository;
 use Doctrine\Common\Collections\Criteria;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\DataMapperInterface;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\DataMapperInterface;
 
 class TaskFilterType extends AbstractType implements DataMapperInterface
 {
@@ -28,6 +28,7 @@ class TaskFilterType extends AbstractType implements DataMapperInterface
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $user = $options['user'];
+
         if ($options['company_teams_as_choices']) {
             $teams = $this->teamRepository->findBy(['company' => $user->getCompany()]);
         } else {
@@ -55,8 +56,7 @@ class TaskFilterType extends AbstractType implements DataMapperInterface
                 'multiple' => true,
                 'expanded' => true,
             ])
-            ->setDataMapper($this)
-        ;
+            ->setDataMapper($this);
     }
 
     /**
@@ -66,7 +66,7 @@ class TaskFilterType extends AbstractType implements DataMapperInterface
     {
         $resolver->setDefaults([
             'method' => 'GET',
-            'company_teams_as_choices' => true
+            'company_teams_as_choices' => true,
         ]);
         $resolver->setRequired('user');
     }

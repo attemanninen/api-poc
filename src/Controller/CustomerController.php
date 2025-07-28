@@ -23,7 +23,7 @@ class CustomerController extends AbstractController
     public function list(
         Request $request,
         CustomerRepository $repository,
-        SerializerInterface $serializer
+        SerializerInterface $serializer,
     ): Response {
         $criteria = Criteria::create();
         $form = $this->createForm(ListParametersType::class, $criteria, [
@@ -40,6 +40,7 @@ class CustomerController extends AbstractController
         $customers = $repository->matching($criteria);
 
         $context = [AbstractNormalizer::GROUPS => 'public'];
+
         if ($fields = $form->get('fields')->getData()) {
             $context[AbstractNormalizer::ATTRIBUTES] = $fields;
         }

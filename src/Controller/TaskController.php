@@ -2,8 +2,8 @@
 
 namespace App\Controller;
 
-use App\Entity\Team;
 use App\Entity\Task;
+use App\Entity\Team;
 use App\Exception\FormValidationException;
 use App\Form\ListParametersType;
 use App\Repository\TaskRepository;
@@ -30,7 +30,7 @@ class TaskController extends AbstractController
 
     public function __construct(
         TaskRepository $repository,
-        SerializerInterface $serializer
+        SerializerInterface $serializer,
     ) {
         $this->repository = $repository;
         $this->serializer = $serializer;
@@ -41,7 +41,7 @@ class TaskController extends AbstractController
      *
      * @Route({"/tasks", "/teams/{id}/tasks"}, name="app_task_list")
      */
-    public function list(Request $request, Team $team = null): Response
+    public function list(Request $request, ?Team $team = null): Response
     {
         $criteria = Criteria::create();
         $form = $this->createForm(ListParametersType::class, $criteria, [
@@ -63,6 +63,7 @@ class TaskController extends AbstractController
         }
 
         $context = [AbstractNormalizer::GROUPS => 'public'];
+
         if ($fields = $form->get('fields')->getData()) {
             $context[AbstractNormalizer::ATTRIBUTES] = $fields;
         }

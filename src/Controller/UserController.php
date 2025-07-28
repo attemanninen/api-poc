@@ -16,7 +16,7 @@ class UserController extends AbstractController
      */
     public function me(
         Security $security,
-        SerializerInterface $serializer
+        SerializerInterface $serializer,
     ): Response {
         $user = $security->getUser();
 

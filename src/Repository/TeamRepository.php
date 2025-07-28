@@ -37,7 +37,7 @@ class TeamRepository extends ServiceEntityRepository
      */
     public function matchingWithUserTeamPermissions(
         Criteria $criteria,
-        User $user
+        User $user,
     ): array {
         $qb = $this->createQueryBuilder('team')
             ->addCriteria($criteria)

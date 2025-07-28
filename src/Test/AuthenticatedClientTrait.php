@@ -16,12 +16,13 @@ trait AuthenticatedClientTrait
         $user = static::$container
             ->get(UserRepository::class)
             ->findOneBy(['username' => $username]);
+
         if (!$user) {
             throw new Exception('User not found!');
         }
 
         $this->client->setServerParameters([
-            'HTTP_Authorization' => 'Bearer ' . $user->getApiKey()
+            'HTTP_Authorization' => 'Bearer ' . $user->getApiKey(),
         ]);
     }
 }

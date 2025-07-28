@@ -4,11 +4,11 @@ namespace App\Form\UI;
 
 use Doctrine\Common\Collections\Criteria;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\DataMapperInterface;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\DataMapperInterface;
 
 class TeamFilterType extends AbstractType implements DataMapperInterface
 {
@@ -26,8 +26,7 @@ class TeamFilterType extends AbstractType implements DataMapperInterface
                 'label' => false,
                 'required' => false,
             ])
-            ->setDataMapper($this)
-        ;
+            ->setDataMapper($this);
     }
 
     /**

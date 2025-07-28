@@ -39,12 +39,13 @@ class ApiKeyAuthenticator extends AbstractAuthenticator
     public function authenticate(Request $request): PassportInterface
     {
         $apiKey = substr($request->headers->get('Authorization'), 7);
+
         if (null === $apiKey) {
             throw new CustomUserMessageAuthenticationException('No API token provided.');
         }
 
         return new SelfValidatingPassport(
-            new UserBadge($apiKey, function($userIdentifier) {
+            new UserBadge($apiKey, function ($userIdentifier) {
                 return $this->userRepository->findOneBy(['apiKey' => $userIdentifier]);
             })
         );
@@ -56,7 +57,7 @@ class ApiKeyAuthenticator extends AbstractAuthenticator
     public function onAuthenticationSuccess(
         Request $request,
         TokenInterface $token,
-        string $firewallName
+        string $firewallName,
     ): ?Response {
         return null;
     }
@@ -66,13 +67,12 @@ class ApiKeyAuthenticator extends AbstractAuthenticator
      */
     public function onAuthenticationFailure(
         Request $request,
-        AuthenticationException $exception
+        AuthenticationException $exception,
     ): ?Response {
         $data = [
-            'message' => strtr($exception->getMessageKey(), $exception->getMessageData())
+            'message' => strtr($exception->getMessageKey(), $exception->getMessageData()),
         ];
 
         return new JsonResponse($data, Response::HTTP_UNAUTHORIZED);
     }
 }
-

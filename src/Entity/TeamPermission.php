@@ -124,6 +124,7 @@ class TeamPermission
     public function removeRole(string $permission): void
     {
         $key = array_search($permission, $this->permissions);
+
         if ($key !== false) {
             unset($this->permissions[$key]);
         }
